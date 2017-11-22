@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
-//test push
+
 public class Mandlebrot {
 	
 	public static void main(String[] args){
@@ -31,18 +31,18 @@ public class Mandlebrot {
 	
 	public static int ITERATIONS = 1;
 	public static float SCALE = 200;
-	public static final int MAX_ITERATIONS = 100;
+	public static final int MAX_ITERATIONS = 50;
 	
 	public static JPanel panel = new JPanel();
-	public boolean auto; //if true, automatically changes ITERATIONS
+	public boolean auto;//if true, automatically changes ITERATIONS
 	
-	private static BufferedImage buffer; //create buffer, then assign to frame
+	private static BufferedImage buffer;//create buffer, then assign to frame
 	
 	public Mandlebrot(){
 		
 		buffer = new BufferedImage(render_WIDTH, render_HEIGHT, BufferedImage.TYPE_INT_RGB);
 		
-		//create slider Component
+		//create iterations slider Component
 		JSlider iterations = new JSlider(JSlider.HORIZONTAL, 0, MAX_ITERATIONS, 10);
 		iterations.setMajorTickSpacing(10);
 		iterations.setMinorTickSpacing(5);
@@ -50,6 +50,7 @@ public class Mandlebrot {
 		iterations.setPaintLabels(true);
 		iterations.setVisible(true);
 		
+		//create scale slider Component
 		JSlider scale = new JSlider(JSlider.HORIZONTAL, 0, 500, 10);
 		scale.setMajorTickSpacing(100);
 		scale.setMinorTickSpacing(10);
@@ -57,24 +58,24 @@ public class Mandlebrot {
 		scale.setPaintLabels(true);
 		scale.setVisible(true);
 		
-		//create Components
+		//create frame
 		JFrame frame = new JFrame("mandlebrot");//set name
+		frame.pack();//???
+		frame.setVisible(true);
+		frame.setPreferredSize(new java.awt.Dimension(WIDTH, HEIGHT));
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//exit when frame is closed
+		frame.setResizable(true);
+		frame.getContentPane().setLayout(new FlowLayout());
+		
 		JButton button = new JButton("Toggle Mode");
-		
-		JPanel sliderList = new JPanel();
-		sliderList.setLayout(new BoxLayout(sliderList, BoxLayout.Y_AXIS));
-		
-		sliderList.add(iterations);
-		sliderList.add(button);
-		sliderList.add(scale);
-		
+
 		button.addActionListener(new ActionListener() {
 		       public void actionPerformed(ActionEvent e) {
 		             // this makes sure the button you are pressing is the button variable
 		             if(e.getSource() == button) {
 		                auto = !auto;
 		                if(auto){
-		                	button.setText("AUTO");
+		                	button.setText(" AUTO ");
 		                }else{
 		                	button.setText("MANUAL");
 		                }
@@ -82,18 +83,20 @@ public class Mandlebrot {
 		       }
 		 });
 		
-		//create the Mandlebrot Set on a BufferedImage
+		JPanel sliderList = new JPanel();
+		sliderList.setLayout(new BoxLayout(sliderList, BoxLayout.Y_AXIS));
+		sliderList.add(iterations);
+		sliderList.add(button);
+		sliderList.add(scale);
+		
+		JPanel all = new JPanel();
+		all.setLayout(new BoxLayout(all, BoxLayout.Y_AXIS));	
+		all.add(new JLabel(new ImageIcon(buffer)));
+		all.add(sliderList);
+		
+		frame.getContentPane().add(all);
+		
 		renderMandelbrotSet();
-		
-		frame.pack();//???
-		frame.setVisible(true);
-		frame.setPreferredSize(new java.awt.Dimension(WIDTH, HEIGHT));
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//exit when frame is closed
-		frame.setResizable(true);
-		
-		frame.setLayout(new BoxLayout(frame, BoxLayout.Y_AXIS));
-		frame.getContentPane().add(new JLabel(new ImageIcon(buffer)));
-		frame.getContentPane().add(sliderList);
 		
 		while(true){
 			int time = 50;
