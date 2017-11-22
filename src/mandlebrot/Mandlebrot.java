@@ -34,7 +34,7 @@ public class Mandlebrot {
 	public static int ITERATIONS = 30;
 	public static float SCALE = 200;
 	public static final int MAX_ITERATIONS = 50;
-	public static final int MAX_SCALE = 10000;
+	public static final int MAX_SCALE = 1000;
 
 	public boolean mousePressed = false;
 	public static int MOUSE_X = 0;
@@ -103,6 +103,7 @@ public class Mandlebrot {
 		all.setLayout(new BoxLayout(all, BoxLayout.Y_AXIS));
 		JLabel image = new JLabel(new ImageIcon(buffer));
 		all.add(image);
+				
 		MouseListener ml = new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -113,19 +114,13 @@ public class Mandlebrot {
 				mousePressed = true;
 				MOUSE_X = e.getX() - render_WIDTH / 2;
 				MOUSE_Y = render_HEIGHT/2 - e.getY();
-//				X_OFFSET = MOUSE_X;
-//				Y_OFFSET = MOUSE_Y;
 				System.out.println(MOUSE_X + ", " + MOUSE_Y);
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				mousePressed = false;
-				int x = e.getX() - render_WIDTH / 2;
-				int y = render_HEIGHT/2 - e.getY();
 				
-				X_OFFSET -= MOUSE_X - x;
-				Y_OFFSET -= MOUSE_Y - y;
 			}
 
 			@Override
@@ -147,7 +142,18 @@ public class Mandlebrot {
 		renderMandelbrotSet();
 
 		while (true) {
-			
+			if(mousePressed){
+				Point mousePos = image.getMousePosition();
+				if(mousePos != null){
+					int x = (int) (mousePos.getX() - render_WIDTH / 2);
+					int y = (int) (render_HEIGHT/2 - mousePos.getY());
+				
+					X_OFFSET -= MOUSE_X - x;
+					Y_OFFSET -= MOUSE_Y - y;
+					MOUSE_X = X_OFFSET;
+					MOUSE_Y = Y_OFFSET;
+				}
+			}
 			int time = 50;
 			SCALE = scale.getValue();
 			if (!auto) {
@@ -176,7 +182,7 @@ public class Mandlebrot {
 				if (auto) {
 					Thread.sleep(time);
 				} else {
-					Thread.sleep(50);
+					Thread.sleep(25);
 				}
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -189,8 +195,10 @@ public class Mandlebrot {
 	public void renderMandelbrotSet() {
 		for (int x = 0; x < render_WIDTH; x++) {
 			for (int y = 0; y < render_HEIGHT; y++) {
-				// convert to Cartesian plane coordinates & factor in scaling
-				int color = calculatePoint(((x - X_OFFSET) - render_WIDTH / 2f) / SCALE, ((y + Y_OFFSET) - render_HEIGHT / 2f) / SCALE);
+				// convert to Cartesian plane coordinates & factor transformations
+				int color = calculatePoint(
+						((x - X_OFFSET) - (render_WIDTH ) / 2f) / (SCALE), 
+						((y + Y_OFFSET) - (render_HEIGHT) / 2f) / (SCALE));
 				// assign each pixel its new color
 				buffer.setRGB(x, y, color);
 			}
@@ -225,4 +233,3 @@ public class Mandlebrot {
 	// }
 
 }
-
