@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
-
+//test push
 public class Mandlebrot {
 	
 	public static void main(String[] args){
@@ -34,9 +34,9 @@ public class Mandlebrot {
 	public static final int MAX_ITERATIONS = 100;
 	
 	public static JPanel panel = new JPanel();
-	public boolean auto;//if true, automatically changes ITERATIONS
+	public boolean auto; //if true, automatically changes ITERATIONS
 	
-	private static BufferedImage buffer;//create buffer, then assign to frame
+	private static BufferedImage buffer; //create buffer, then assign to frame
 	
 	public Mandlebrot(){
 		
