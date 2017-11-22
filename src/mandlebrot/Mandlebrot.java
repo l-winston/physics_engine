@@ -20,8 +20,8 @@ public class Mandlebrot {
 	
 	public static void main(String[] args){
 		new Mandlebrot();
-		
 	}
+	
 	public static final int render_WIDTH = 600;
 	public static final int render_HEIGHT = 400;
 	public static final int WIDTH = 800;
@@ -29,7 +29,7 @@ public class Mandlebrot {
 	public static final int X_OFFSET = 100;
 	public static final int Y_OFFSET = 0;
 	
-	public static int ITERATIONS = 1;
+	public static int ITERATIONS = 30;
 	public static float SCALE = 200;
 	public static final int MAX_ITERATIONS = 50;
 	
@@ -49,6 +49,7 @@ public class Mandlebrot {
 		iterations.setPaintTicks(true);
 		iterations.setPaintLabels(true);
 		iterations.setVisible(true);
+		iterations.setValue(ITERATIONS);
 		
 		//create scale slider Component
 		JSlider scale = new JSlider(JSlider.HORIZONTAL, 0, 500, 10);
@@ -57,6 +58,7 @@ public class Mandlebrot {
 		scale.setPaintTicks(true);
 		scale.setPaintLabels(true);
 		scale.setVisible(true);
+		scale.setValue((int) SCALE);
 		
 		//create frame
 		JFrame frame = new JFrame("mandlebrot");//set name
@@ -67,8 +69,7 @@ public class Mandlebrot {
 		frame.setResizable(true);
 		frame.getContentPane().setLayout(new FlowLayout());
 		
-		JButton button = new JButton("Toggle Mode");
-
+		JButton button = new JButton("MANUAL");
 		button.addActionListener(new ActionListener() {
 		       public void actionPerformed(ActionEvent e) {
 		             // this makes sure the button you are pressing is the button variable
