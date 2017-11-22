@@ -25,10 +25,12 @@ public class Mandlebrot {
 	public static final int render_HEIGHT = 400;
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 600;
+	public static final int X_OFFSET = 100;
+	public static final int Y_OFFSET = 0;
 	
 	public static int ITERATIONS = 1;
 	public static final float SCALE = 200;
-	public static final int MAX_ITERATIONS = 50;
+	public static final int MAX_ITERATIONS = 100;
 	
 	public static JPanel panel = new JPanel();
 	public boolean auto;//if true, automatically changes ITERATIONS
@@ -40,9 +42,9 @@ public class Mandlebrot {
 		buffer = new BufferedImage(render_WIDTH, render_HEIGHT, BufferedImage.TYPE_INT_RGB);
 		
 		//create slider Component
-		JSlider iterations = new JSlider(JSlider.HORIZONTAL, 1, MAX_ITERATIONS, 10);
-		iterations.setMajorTickSpacing(100);
-		iterations.setMinorTickSpacing(10);
+		JSlider iterations = new JSlider(JSlider.HORIZONTAL, 0, MAX_ITERATIONS, 10);
+		iterations.setMajorTickSpacing(10);
+		iterations.setMinorTickSpacing(5);
 		iterations.setPaintTicks(true);
 		iterations.setPaintLabels(true);
 		iterations.setVisible(true);
@@ -84,7 +86,7 @@ public class Mandlebrot {
 			if(!auto){
 				ITERATIONS = iterations.getValue();
 			}else{
-				time = MAX_ITERATIONS-ITERATIONS/2; 
+				time = MAX_ITERATIONS/2-ITERATIONS/2; 
 				ITERATIONS += 1;
 				
 				if(ITERATIONS > MAX_ITERATIONS){
@@ -120,7 +122,7 @@ public class Mandlebrot {
 		for(int x = 0; x < render_WIDTH; x++){
 			for(int y = 0; y < render_HEIGHT; y++){
 				//convert to Cartesian plane coordinates & factor in scaling
-				int color = calculatePoint((x-render_WIDTH/2f)/SCALE, (y-render_HEIGHT/2f)/SCALE);
+				int color = calculatePoint(((x - X_OFFSET)-render_WIDTH/2f)/SCALE, ((y + Y_OFFSET)-render_HEIGHT/2f)/SCALE);
 				//assign each pixel its new color
 				buffer.setRGB(x, y, color);
 			}
