@@ -114,13 +114,12 @@ public class Mandlebrot {
 				mousePressed = true;
 				MOUSE_X = e.getX() - render_WIDTH / 2;
 				MOUSE_Y = render_HEIGHT/2 - e.getY();
-				System.out.println(MOUSE_X + ", " + MOUSE_Y);
+				System.out.println("(" + MOUSE_X + ", " + MOUSE_Y + ")");
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				mousePressed = false;
-				
 			}
 
 			@Override
@@ -147,7 +146,7 @@ public class Mandlebrot {
 				if(mousePos != null){
 					int x = (int) (mousePos.getX() - render_WIDTH / 2);
 					int y = (int) (render_HEIGHT/2 - mousePos.getY());
-				
+					
 					X_OFFSET -= MOUSE_X - x;
 					Y_OFFSET -= MOUSE_Y - y;
 					MOUSE_X = X_OFFSET;
