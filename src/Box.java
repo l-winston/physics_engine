@@ -27,11 +27,9 @@ public class Box extends Entity {
 			for (int y = -image_height / 2; y < image_height / 2; y++) {
 				if (x < this.x + width / 2 && x > this.x - width / 2 && y < this.y + height / 2
 						&& y > this.y - height / 2) {
-					System.out.println(x + " " + y);
 
 					double cx = x + image_width / 2.0;
 					double cy = image_height / 2.0 - 1 - y;
-					System.out.println(cx + " " + cy);
 
 					image.setRGB((int) Math.round(cx), (int) Math.round(cy), color.getRGB());
 				}
@@ -40,9 +38,8 @@ public class Box extends Entity {
 
 		this.x += velocity.x;
 		this.y += velocity.y;
-		velocity.y -= 0.1;
-		frame.pack();
-		frame.repaint();
+		velocity.y -= 0.1;// gravity
+
 	}
 
 }
