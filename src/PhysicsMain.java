@@ -15,7 +15,7 @@ public class PhysicsMain {
 		frame.pack();
 		
 		setWhite();
-		entities.add(new Box(100, 100, 1, 0, 0, 0, 100.0, new Color(0, 0, 0)));
+		entities.add(new Box(50, 50, new Vector(1, 0), 0, 0, 100.0, new Color(0, 0, 0)));
 			
 		
 		while (true){
@@ -32,9 +32,17 @@ public class PhysicsMain {
 	}
 	
 	public static void update(){
+		try {
+			Thread.sleep(5);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		setWhite();
 		for(Box e : entities){
 			e.update();
 		}
-
+		
+		
 	}
 }
