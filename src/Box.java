@@ -4,8 +4,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 
 public class Box extends Entity {
-	public static double height;
-	public static double width;
+	public double height;
+	public double width;
 
 	public Box(double height, double width, Vector velocity, double x, double y, double mass, Color color) {
 		this.height = height;

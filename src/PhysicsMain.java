@@ -17,11 +17,12 @@ public class PhysicsMain {
 
 		setWhite();
 		Box red = new Box(50, 50, new Vector(1, 0), 0, 0, 100.0, new Color(255, 0, 0));
+		System.out.println(red.width);
 		entities.add(red);
 		Box green = new Box(10, 10, new Vector(-1, 0), -50, 100, 50.0, new Color(0, 255, 0));
 		entities.add(green);
 
-		System.out.println(red.width == green.width);
+		System.out.println(red.width);
 		
 		while (true) {
 			update();
@@ -46,7 +47,6 @@ public class PhysicsMain {
 		setWhite();
 		for (Entity e : entities) {
 			e.update();
-			System.out.println(e.mass);
 		}
 		frame.pack();
 		frame.repaint();
