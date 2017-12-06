@@ -1,15 +1,17 @@
 
-public class Vector {
+public class Point {
 	public double x;
 	public double y;
-
-	public Vector(double x, double y) {
+	public boolean isPolar;
+	
+	public Point(double x, double y) {
 		this.x = x;
 		this.y = y;
+		//this.isPolar = isPolar;
 	}
 
-	public Vector add(Vector v) {
-		return new Vector(x + v.x, y + v.y);
+	public Point add(Point v) {
+		return new Point(x + v.x, y + v.y);
 	}
 
 	public void getUnitVectors() {
