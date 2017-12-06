@@ -6,6 +6,14 @@ public abstract class Entity {
 	public double y;
 	public double mass;
 	public Color color;
+
+	/**
+	 * bearing of Entity (in radians)
+	 */
+	public double direction;
 	
+	/**
+	 * repaints Entity
+	 */
 	public abstract void update();
 }
