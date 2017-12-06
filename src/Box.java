@@ -1,13 +1,12 @@
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-import javax.swing.JFrame;
-
 public class Box extends Entity {
 	public double height;
 	public double width;
 
 	public Box(double height, double width, Vector velocity, double x, double y, double mass, Color color, double direction) {
+
 		this.height = height;
 		this.width = width;
 		this.velocity = new Vector(velocity.x, velocity.y);
@@ -34,6 +33,7 @@ public class Box extends Entity {
 				v.y += this.direction;
 				while(v.y > 2*Math.PI) {
 					v.y -= 2*Math.PI;
+
 				}
 				v.getUnitVectors();
 				v.x += this.x;
@@ -61,7 +61,6 @@ public class Box extends Entity {
 		this.y += velocity.y;
 		//velocity.y -= (y-0)/1000.0;// gravitation
 		//velocity.x -= (x-0)/1000.0;
-
 
 	}
 

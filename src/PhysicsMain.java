@@ -20,7 +20,6 @@ public class PhysicsMain {
 		entities.add(red);
 		Box green = new Box(50, 50, new Vector(0, 0), -50, -50, 100.0, new Color(0, 255, 0), Math.toRadians(0));
 		entities.add(green);
-
 		
 		while (true) {
 			update();
