@@ -13,8 +13,8 @@ public class Vector {
 	}
 
 	public void getUnitVectors() {
-		double x1 = x * Math.cos(y);
-		double y1 = x * Math.sin(y);
+		double y1 = x * Math.cos(Math.PI/4 - y);
+		double x1 = x * Math.sin(y);
 		x = x1;
 		y = y1;
 	}
