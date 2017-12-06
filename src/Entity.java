@@ -6,6 +6,8 @@ public abstract class Entity {
 	public double y;
 	public double mass;
 	public Color color;
+	public double bearing;
+	public double angular_velocity;
 	
 	public abstract void update();
 }

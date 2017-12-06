@@ -16,13 +16,10 @@ public class PhysicsMain {
 		frame.pack();
 
 		setWhite();
-		Box red = new Box(50, 50, new Vector(1, 0), 0, 0, 100.0, new Color(255, 0, 0));
-		System.out.println(red.width);
+		Box red = new Box(50, 50, new Vector(0, 0), 30, 0, 100.0, new Color(255, 0, 0), 1, 0);
 		entities.add(red);
-		Box green = new Box(10, 10, new Vector(-1, 0), -50, 100, 50.0, new Color(0, 255, 0));
+		Box green = new Box(10, 10, new Vector(0, 0), 0, 50, 50.0, new Color(0, 255, 0), 0.5, 0);
 		entities.add(green);
-
-		System.out.println(red.width);
 		
 		while (true) {
 			update();
