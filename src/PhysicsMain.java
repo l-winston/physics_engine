@@ -16,9 +16,9 @@ public class PhysicsMain {
 		frame.pack();
 
 		setWhite();
-		Box red = new Box(50, 50, new Vector(0, 0), 30, 0, 100.0, new Color(255, 0, 0), 1, 0);
+		Box red = new Box(50, 50, new Vector(1, 0), 0, 0, 100.0, new Color(255, 0, 0), Math.toRadians(0));
 		entities.add(red);
-		Box green = new Box(10, 10, new Vector(0, 0), 0, 50, 50.0, new Color(0, 255, 0), 0.5, 0);
+		Box green = new Box(50, 50, new Vector(0, 0), -50, -50, 100.0, new Color(0, 255, 0), Math.toRadians(0));
 		entities.add(green);
 		
 		while (true) {
@@ -44,9 +44,11 @@ public class PhysicsMain {
 		setWhite();
 		for (Entity e : entities) {
 			e.update();
+			e.direction += Math.toRadians(1);
 		}
 		frame.pack();
 		frame.repaint();
+		//entities.get(0).direction += Math.toRadians(1);
 
 	}
 }
