@@ -19,24 +19,31 @@ public class Box extends Entity {
 	}
 
 	public void update() {
+		while(direction > 2*Math.PI) {
+			direction -= 2*Math.PI;
+		}
+		
 		BufferedImage image = PhysicsMain.image;
 		int image_width = image.getWidth();
 		int image_height = image.getHeight();
 		
 		for (double x = -width / 2; x < width / 2; x++) {
 			for (double y = -height / 2; y < width / 2; y++) {
-				Vector v = new Vector(x-this.x, y-this.y);
+				Vector v = new Vector(x, y);
 				v.getPolar();
-				v.y += direction;
+				v.y += this.direction;
+				while(v.y > 2*Math.PI) {
+					v.y -= 2*Math.PI;
+				}
 				v.getUnitVectors();
 				v.x += this.x;
-				v.y += this.y;
+				v.y += this.y; 
 				image.setRGB((int)Math.ceil(v.x + image_width/2), (int) Math.ceil(image_height/2 - 1 - v.y), color.getRGB());
 				image.setRGB((int)Math.floor(v.x + image_width/2), (int) Math.floor(image_height/2 - 1 - v.y), color.getRGB());
-
+				
 			}
 		}
-			
+
 //		for (int x = -image_width / 2; x < image_width / 2; x++) {
 //			for (int y = -image_height / 2; y < image_height / 2; y++) {
 //				if (x < this.x + width / 2 && x > this.x - width / 2 && y < this.y + height / 2
@@ -50,8 +57,8 @@ public class Box extends Entity {
 //			}
 //		}
 
-		//this.x += velocity.x;
-		//this.y += velocity.y;
+		this.x += velocity.x;
+		this.y += velocity.y;
 		//velocity.y -= (y-0)/1000.0;// gravitation
 		//velocity.x -= (x-0)/1000.0;
 

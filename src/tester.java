@@ -1,12 +1,12 @@
 
 public class tester {
 	public static void main(String[] args) {
-		Vector v = new Vector(-5, -1);
-		System.out.println(v);
+		Vector v = new Vector(-1, 5);
+		System.out.println("initial: " + v);
 		v.getPolar();
-		System.out.println(v);
+		System.out.println("after polarized: " + v);
 		v.getUnitVectors();
-		System.out.println(v);
+		System.out.println("end: " + v);
 
 	}
 }
