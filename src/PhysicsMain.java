@@ -16,10 +16,12 @@ public class PhysicsMain {
 		frame.pack();
 
 		setWhite();
-		Box red = new Box(250, 150, new Vector(3, 0), 15, 100, 100.0, new Color(255, 0, 0), Math.toRadians(0), Math.toRadians(5), true);
+		Box red = new Box(250, 150, new Vector(-1, -2), 15, 100, 100.0, new Color(255, 0, 0), Math.toRadians(0), Math.toRadians(5), true);
 		entities.add(red);
-		Box green = new Box(50, 50, new Vector(-1, 0), -50, -50, 100.0, new Color(0, 255, 0), Math.toRadians(0), Math.toRadians(-1), true);
+		Box green = new Box(50, 50, new Vector(2, 0), -50, -50, 100.0, new Color(0, 255, 0), Math.toRadians(0), Math.toRadians(-1), true);
 		entities.add(green);
+		Box blue = new Box(75, 10, new Vector(0, 5), 0, -100, 100.0, new Color(0, 0, 255), Math.toRadians(0), Math.toRadians(0.5), true);
+		entities.add(blue);
 
 		
 		while (true) {
@@ -37,7 +39,7 @@ public class PhysicsMain {
 
 	public static void update() {
 		try {
-			Thread.sleep(5);
+			Thread.sleep(50);
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
