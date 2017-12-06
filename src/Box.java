@@ -5,8 +5,8 @@ public class Box extends Entity {
 	public double height;
 	public double width;
 
-	public Box(double height, double width, Vector velocity, double x, double y, double mass, Color color, double direction) {
-
+	public Box(double height, double width, Vector velocity, double x, double y, double mass, Color color,
+			double direction, double angular_velocity, boolean exists) {
 		this.height = height;
 		this.width = width;
 		this.velocity = new Vector(velocity.x, velocity.y);
@@ -15,53 +15,57 @@ public class Box extends Entity {
 		this.mass = mass;
 		this.color = color;
 		this.direction = direction;
+		this.angular_velocity = angular_velocity;
+		this.exists = exists;
 	}
 
 	public void update() {
-		while(direction > 2*Math.PI) {
-			direction -= 2*Math.PI;
-		}
-		
 		BufferedImage image = PhysicsMain.image;
 		int image_width = image.getWidth();
 		int image_height = image.getHeight();
 		
-		for (double x = -width / 2; x < width / 2; x++) {
-			for (double y = -height / 2; y < width / 2; y++) {
-				Vector v = new Vector(x, y);
-				v.getPolar();
-				v.y += this.direction;
-				while(v.y > 2*Math.PI) {
-					v.y -= 2*Math.PI;
+		if (exists) {
+			for (double x = -width / 2; x < width / 2; x++) {
+				for (double y = -height / 2; y < width / 2; y++) {
+					Vector v = new Vector(x, y);
+					v.getPolar();
+					v.y += this.direction;
+
+					while (v.y > 2 * Math.PI) {
+						v.y -= 2 * Math.PI;
+					}
+
+					v.getUnitVectors();
+					v.x += this.x;
+					v.y += this.y;
+					try {
+						image.setRGB((int) Math.ceil(v.x + image_width / 2),
+								(int) Math.ceil(image_height / 2 - 1 - v.y), color.getRGB());
+						image.setRGB((int) Math.floor(v.x + image_width / 2),
+								(int) Math.floor(image_height / 2 - 1 - v.y), color.getRGB());
+					} catch (ArrayIndexOutOfBoundsException e) {
+						//if it is impossible for a pixel of the Entity to be on the screen, do not render it 
+						double corner_max = Math.sqrt(Math.pow(width/2, 2) + Math.pow(height/2, 2));
+						if(this.x + corner_max < -image_width/2 || this.x - corner_max > image_width/2) {
+							exists = false;
+						}
+						if(this.y + corner_max < -image_height/2 || this.y - corner_max > image_height/2) {
+							exists = false;
+						}
+					}
 
 				}
-				v.getUnitVectors();
-				v.x += this.x;
-				v.y += this.y; 
-				image.setRGB((int)Math.ceil(v.x + image_width/2), (int) Math.ceil(image_height/2 - 1 - v.y), color.getRGB());
-				image.setRGB((int)Math.floor(v.x + image_width/2), (int) Math.floor(image_height/2 - 1 - v.y), color.getRGB());
-				
 			}
 		}
-
-//		for (int x = -image_width / 2; x < image_width / 2; x++) {
-//			for (int y = -image_height / 2; y < image_height / 2; y++) {
-//				if (x < this.x + width / 2 && x > this.x - width / 2 && y < this.y + height / 2
-//						&& y > this.y - height / 2) {
-//
-//					double cx = x + image_width / 2.0;
-//					double cy = image_height / 2.0 - 1 - y;
-//
-//					image.setRGB((int) Math.round(cx), (int) Math.round(cy), color.getRGB());
-//				}
-//			}
-//		}
-
 		this.x += velocity.x;
 		this.y += velocity.y;
-		//velocity.y -= (y-0)/1000.0;// gravitation
-		//velocity.x -= (x-0)/1000.0;
-
+		// velocity.y -= (y-0)/1000.0;// gravitation
+		// velocity.x -= (x-0)/1000.0;
+		velocity.y -= 1;
+		this.direction += this.angular_velocity;
+		while (direction > 2 * Math.PI) {
+			direction -= 2 * Math.PI;
+		}
 	}
 
 }
