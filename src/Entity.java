@@ -6,6 +6,7 @@ public abstract class Entity {
 	public double y;
 	public double mass;
 	public Color color;
+	public double angular_velocity;
 
 	/**
 	 * bearing of Entity (in radians)

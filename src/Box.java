@@ -7,7 +7,7 @@ public class Box extends Entity {
 	public double height;
 	public double width;
 
-	public Box(double height, double width, Vector velocity, double x, double y, double mass, Color color, double direction) {
+	public Box(double height, double width, Vector velocity, double x, double y, double mass, Color color, double direction, double angular_velocity) {
 		this.height = height;
 		this.width = width;
 		this.velocity = new Vector(velocity.x, velocity.y);
@@ -16,6 +16,7 @@ public class Box extends Entity {
 		this.mass = mass;
 		this.color = color;
 		this.direction = direction;
+		this.angular_velocity = angular_velocity;
 	}
 
 	public void update() {
@@ -44,25 +45,11 @@ public class Box extends Entity {
 			}
 		}
 
-//		for (int x = -image_width / 2; x < image_width / 2; x++) {
-//			for (int y = -image_height / 2; y < image_height / 2; y++) {
-//				if (x < this.x + width / 2 && x > this.x - width / 2 && y < this.y + height / 2
-//						&& y > this.y - height / 2) {
-//
-//					double cx = x + image_width / 2.0;
-//					double cy = image_height / 2.0 - 1 - y;
-//
-//					image.setRGB((int) Math.round(cx), (int) Math.round(cy), color.getRGB());
-//				}
-//			}
-//		}
-
 		this.x += velocity.x;
 		this.y += velocity.y;
-		//velocity.y -= (y-0)/1000.0;// gravitation
-		//velocity.x -= (x-0)/1000.0;
-
-
+		velocity.y -= (y-0)/1000.0;// gravitation
+		velocity.x -= (x-0)/1000.0;
+		this.direction += this.angular_velocity;
 	}
 
 }
