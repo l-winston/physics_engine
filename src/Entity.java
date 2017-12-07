@@ -2,8 +2,7 @@ import java.awt.Color;
 
 public abstract class Entity {
 	public Point velocity;
-	public double x;
-	public double y;
+	public Point location;
 	public double mass;
 	public Color color;
 	public double angular_velocity;
