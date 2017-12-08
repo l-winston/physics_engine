@@ -12,7 +12,7 @@ public abstract class Entity {
 	 * bearing of Entity (in radians)
 	 */
 	public double direction;
-	
+
 	/**
 	 * repaints Entity
 	 */
