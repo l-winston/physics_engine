@@ -6,9 +6,10 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.event.WindowEvent;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.GeneralPath;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class PhysicsMain {
 	}
 
 	public static void runAnimation() {
-		// Set up some variables.
+		// Set up some variables
 		int fps = 0;
 		int frames = 0;
 		long totalTime = 0;
@@ -115,7 +116,7 @@ public class PhysicsMain {
 		entities.add(new Ball(x, y, vx, vy, m));
 		return 0;
 	}
-	
+
 	public static synchronized int createBox(int x, int y, double vx, double vy, double bearing, int m) {
 		if (entities.size() >= MAX_SPAWN)
 			return 1;
