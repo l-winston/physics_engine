@@ -3,10 +3,6 @@ import java.awt.geom.Point2D;
 public class Box extends Entity {
 	public double height;
 	public double width;
-	public Point2D c1;
-	public Point2D c2;
-	public Point2D c3;
-	public Point2D c4;
 
 	/*
 	 * with c1----------c2 | | | | height | | c4----------c3
@@ -20,19 +16,6 @@ public class Box extends Entity {
 		this.bearing = bearing;
 		this.height = 15;
 		this.width = 15;
-		findCorners();
-	}
-
-	public void findCorners() {
-		double hypotenuse = Math.sqrt(Math.pow(this.width / 2, 2) + Math.pow(this.height / 2, 2));
-		this.c1 = new Point2D.Double(this.x + Math.sin(this.bearing - Math.atan(this.width / this.height)) * hypotenuse,
-				this.y + Math.cos(this.bearing - Math.atan(this.width / this.height)) * hypotenuse);
-		this.c2 = new Point2D.Double(this.x + Math.cos(this.bearing - Math.atan(this.height / this.width)) * hypotenuse,
-				this.y + Math.sin(this.bearing - Math.atan(this.height / this.width)) * hypotenuse);
-		this.c3 = new Point2D.Double(this.x - Math.sin(this.bearing - Math.atan(this.width / this.height)) * hypotenuse,
-				this.y - Math.cos(this.bearing - Math.atan(this.width / this.height)) * hypotenuse);
-		this.c4 = new Point2D.Double(this.x - Math.cos(this.bearing - Math.atan(this.height / this.width)) * hypotenuse,
-				this.y - Math.sin(this.bearing - Math.atan(this.height / this.width)) * hypotenuse);
 	}
 
 	public Box(int x, int y) {
@@ -69,5 +52,9 @@ public class Box extends Entity {
 
 	public double getY2() {
 		return (this.y + this.dimY());
+	}
+	
+	public double getBearing(){
+		return this.bearing;
 	}
 }

@@ -23,7 +23,6 @@ class Surface extends JPanel {
 		g2d.setPaint(Color.gray);
 		g2d.translate(300, 250);
 
-		GeneralPath star = new GeneralPath();
 
 		Polygon rect = new Polygon();
 		rect.addPoint(100, 100);
@@ -33,7 +32,7 @@ class Surface extends JPanel {
 		
 		Rectangle bounds = rect.getBounds();
 		AffineTransform transform = new AffineTransform();
-		transform.rotate(Math.toRadians(30), bounds.width / 2, bounds.height / 2);
+		transform.rotate(Math.toRadians(50), bounds.width / 2, bounds.height / 2);
 		
 		g2d.fill(transform.createTransformedShape(rect));
 		g2d.dispose();

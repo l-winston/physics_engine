@@ -6,6 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
@@ -44,8 +46,10 @@ public class PhysicsMain {
 
 		Thread moveEngine = new MoveEngine();
 		moveEngine.start();
-		Thread makeBall = new MakeBall();
-		makeBall.start();
+		//Thread makeBall = new MakeBall();
+		//makeBall.start();
+		Thread makeBox = new MakeBox();
+		makeBox.start();
 
 		runAnimation();
 	}
@@ -79,8 +83,19 @@ public class PhysicsMain {
 					at = new AffineTransform();
 					at.translate(entities.get(i).getX(), entities.get(i).getY());
 					g2d.setColor(Color.BLACK);
-					Ball s = (Ball) entities.get(i);
-					g2d.fill(new Ellipse2D.Double(s.getX(), s.getY(), s.getRadius() * 2, s.getRadius() * 2));
+					//Ball s = (Ball) entities.get(i);
+					Box s = (Box) entities.get(i);
+					//g2d.fill(new Ellipse2D.Double(s.getX(), s.getY(), s.getRadius() * 2, s.getRadius() * 2));
+					Polygon rect = new Polygon();
+					rect.addPoint((int) Math.round(s.getCenter().getX()-s.width/2), (int) Math.round(s.getCenter().getY()+s.height/2));
+					rect.addPoint((int) Math.round(s.getCenter().getX()+s.width/2), (int) Math.round(s.getCenter().getY()+s.height/2));
+					rect.addPoint((int) Math.round(s.getCenter().getX()+s.width/2), (int) Math.round(s.getCenter().getY()-s.height/2));
+					rect.addPoint((int) Math.round(s.getCenter().getX()-s.width/2), (int) Math.round(s.getCenter().getY()-s.height/2));
+					Rectangle bounds = rect.getBounds();
+					at.rotate(s.getBearing(), s.getCenter().getX(), s.getCenter().getY());
+					//at.translate(s.getX(), s.getY());
+					g2d.fill(at.createTransformedShape(rect));
+					//g2d.dispose();
 				}
 				// display frames per second...
 				g2d.setFont(new Font("Courier New", Font.PLAIN, 12));
