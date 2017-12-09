@@ -1,45 +1,39 @@
 import java.awt.geom.Point2D;
 
-public class Box extends Entity {
-	public double height;
-	public double width;
+public class Ball extends Entity {
+	private double radius;
 
-	public Box(int x, int y, double vx, double vy, double bearing, int m) {
+	public Ball(int x, int y, double vx, double vy, int m) {
 		this.x = x;
 		this.y = y;
 		this.vx = vx;
 		this.vy = vy;
-		this.bearing = bearing;
-		this.height = 15;
-		this.width = 15;
+		this.radius = 15.0;
 	}
 
-	public Box(int x, int y) {
-		this(x, y, 0.0, 0.0, 0, 100);
+	public Ball(int x, int y) {
+		this(x, y, 0.0, 0.0, 100);
 	}
 
 	public Vector2D velVector() {
 		return new Vector2D(this.vx(), this.vy());
 	}
 
+
 	public int dimX() {
-		return (int) (this.width * 2);
+		return (int) (this.radius * 2);
 	}
 
 	public int dimY() {
-		return (int) (this.height * 2);
+		return (int) (this.radius * 2);
 	}
 
 	public Point2D getCenter() {
 		return new Point2D.Double(this.x + (this.dimX() / 2), this.y + (this.dimY() / 2));
 	}
 
-	public double getWidth() {
-		return this.width;
-	}
-
-	public double getHeight() {
-		return this.height;
+	public double getRadius() {
+		return this.radius;
 	}
 
 	public double getX2() {
