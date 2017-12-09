@@ -109,10 +109,17 @@ public class PhysicsMain {
 		return false;
 	}
 
-	public static synchronized int create(int x, int y, double vx, double vy, int m) {
+	public static synchronized int createBall(int x, int y, double vx, double vy, int m) {
 		if (entities.size() >= MAX_SPAWN)
 			return 1;
 		entities.add(new Ball(x, y, vx, vy, m));
+		return 0;
+	}
+	
+	public static synchronized int createBox(int x, int y, double vx, double vy, double bearing, int m) {
+		if (entities.size() >= MAX_SPAWN)
+			return 1;
+		entities.add(new Box(x, y, vx, vy, bearing, m));
 		return 0;
 	}
 
