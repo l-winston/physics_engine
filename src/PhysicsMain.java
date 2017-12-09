@@ -9,6 +9,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
@@ -21,8 +22,8 @@ import javax.swing.*;
 public class PhysicsMain {
 	public static JFrame frame = new JFrame("Physics Engine");
 	public static final int MAX_SPAWN = 70;
-	public static final int X = 740;
-	public static final int Y = 580;
+	public static final int X = 750;
+	public static final int Y = 750;
 	public static final double GRAVITY = 1500;
 	// public static final double GRAVITY = 1500;
 	public static final double DRAG = 0.2;
@@ -93,8 +94,10 @@ public class PhysicsMain {
 					rect.addPoint((int) Math.round(s.getCenter().getX()-s.width/2), (int) Math.round(s.getCenter().getY()-s.height/2));
 					Rectangle bounds = rect.getBounds();
 					at.rotate(s.getBearing(), s.getCenter().getX(), s.getCenter().getY());
+					Shape rotated = at.createTransformedShape(rect);
+					
 					//at.translate(s.getX(), s.getY());
-					g2d.fill(at.createTransformedShape(rect));
+					g2d.fill(rotated);
 					//g2d.dispose();
 				}
 				// display frames per second...
@@ -132,10 +135,10 @@ public class PhysicsMain {
 		return 0;
 	}
 
-	public static synchronized int createBox(int x, int y, double vx, double vy, double bearing, int m) {
+	public static synchronized int createBox(int x, int y, double vx, double vy, double bearing, int width, int height, int m) {
 		if (entities.size() >= MAX_SPAWN)
 			return 1;
-		entities.add(new Box(x, y, vx, vy, bearing, m));
+		entities.add(new Box(x, y, vx, vy, bearing, width, height, m));
 		return 0;
 	}
 

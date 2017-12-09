@@ -8,18 +8,18 @@ public class Box extends Entity {
 	 * with c1----------c2 | | | | height | | c4----------c3
 	 */
 
-	public Box(int x, int y, double vx, double vy, double bearing, int m) {
+	public Box(int x, int y, double vx, double vy, double bearing, int height, int width, int m) {
 		this.x = x;
 		this.y = y;
 		this.vx = vx;
 		this.vy = vy;
 		this.bearing = bearing;
-		this.height = 15;
-		this.width = 15;
+		this.width = width;
+		this.height = height;
 	}
 
 	public Box(int x, int y) {
-		this(x, y, 0.0, 0.0, 0, 100);
+		this(x, y, 0.0, 0.0, 0, 10, 10, 100);
 	}
 
 	public Vector2D velVector() {
@@ -27,11 +27,11 @@ public class Box extends Entity {
 	}
 
 	public int dimX() {
-		return (int) (this.width * 2);
+		return (int) (this.width);
 	}
 
 	public int dimY() {
-		return (int) (this.height * 2);
+		return (int) (this.height);
 	}
 
 	public Point2D getCenter() {

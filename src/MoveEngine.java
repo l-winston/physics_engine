@@ -65,20 +65,21 @@ public class MoveEngine extends Thread {
 	private synchronized void moveEnts() {
 		for (int i = 0; i < PhysicsMain.entities.size(); i++) {
 			Box s = (Box) PhysicsMain.entities.get(i);
-			//Ball s = (Ball) PhysicsMain.entities.get(i);
+			// Ball s = (Ball) PhysicsMain.entities.get(i);
 			// Get the initial x and y coords.
 			double oldX = s.getX(), oldY = s.getY();
 			// Calculate the new x and y coords.
 			double newX = oldX + (s.vx() * timeFraction);
 			double newY = oldY + (s.vy() * timeFraction);
 			s.updatePos(newX, newY);
-			//checkWallCollisions(s);
+			checkWallCollisions(s);
 		}
-		//checkCollisions();
+		// checkBallCollisions();
+		// checkBoxCollisions
 	}
 
-	private synchronized void checkCollisions() {
-		//compare distances between centers (only applicable for balls)
+	private synchronized void checkBallCollisions() {
+		// compare distances between centers (only applicable for balls)
 		for (int i = 0; i < PhysicsMain.entities.size() - 1; i++) {
 			Ball s = (Ball) PhysicsMain.entities.get(i);
 			Point2D sCenter = s.getCenter();
@@ -91,6 +92,20 @@ public class MoveEngine extends Thread {
 				double bigR = s.getRadius() > t.getRadius() ? s.getRadius() : t.getRadius();
 				if (distBetween < (bigR * 2))
 					collide(s, t, distBetween);
+			}
+		}
+	}
+
+	private synchronized void checkBoxCollisions() {
+		// compare distances between centers (only applicable for balls)
+		for (int i = 0; i < PhysicsMain.entities.size() - 1; i++) {
+			Box s = (Box) PhysicsMain.entities.get(i);
+			Point2D sCenter = s.getCenter();
+			for (int j = i + 1; j < PhysicsMain.entities.size(); j++) {
+				Ball t = (Ball) PhysicsMain.entities.get(j);
+				if (t == null)
+					break;
+				
 			}
 		}
 	}
@@ -135,7 +150,7 @@ public class MoveEngine extends Thread {
 	}
 
 	private synchronized void checkWallCollisions(Ball s) {
-		//check distance from center to wall (only applicable for balls)
+		// check distance from center to wall (only applicable for balls)
 		int maxY = PhysicsMain.Y - s.dimY();
 		int maxX = PhysicsMain.X - s.dimX();
 		if (s.getY() > maxY) {
@@ -155,8 +170,9 @@ public class MoveEngine extends Thread {
 			s.updateVelocity((s.vy() * -PhysicsMain.BOUNCE), s.vx());
 		}
 	}
+
 	private synchronized void checkWallCollisions(Box s) {
-		//check distance from center to wall (only applicable for balls)
+		// check distance from center to wall (only applicable for balls)
 		int maxY = PhysicsMain.Y - s.dimY();
 		int maxX = PhysicsMain.X - s.dimX();
 		if (s.getY() > maxY) {
@@ -173,7 +189,7 @@ public class MoveEngine extends Thread {
 		}
 		if (s.getY() < 1) {
 			s.updatePos(s.getX(), 1);
-			s.updateVelocity((s.vy() * -PhysicsMain.BOUNCE), s.vx());
+			s.updateVelocity(s.vx(), (s.vy() * -PhysicsMain.BOUNCE));
 		}
 	}
 }
