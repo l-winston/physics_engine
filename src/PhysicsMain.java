@@ -21,9 +21,9 @@ import javax.swing.*;
 
 public class PhysicsMain {
 	public static JFrame frame = new JFrame("Physics Engine");
-	public static final int MAX_SPAWN = 70;
-	public static final int X = 750;
-	public static final int Y = 750;
+	public static final int MAX_SPAWN = 30;
+	public static final int X = 500;
+	public static final int Y = 500;
 	public static final double GRAVITY = 1500;
 	// public static final double GRAVITY = 1500;
 	public static final double DRAG = 0.2;
@@ -47,10 +47,10 @@ public class PhysicsMain {
 
 		Thread moveEngine = new MoveEngine();
 		moveEngine.start();
-		//Thread makeBall = new MakeBall();
-		//makeBall.start();
-		Thread makeBox = new MakeBox();
-		makeBox.start();
+		Thread makeBall = new MakeBall();
+		makeBall.start();
+		//Thread makeBox = new MakeBox();
+		//makeBox.start();
 
 		runAnimation();
 	}
@@ -84,20 +84,20 @@ public class PhysicsMain {
 					at = new AffineTransform();
 					at.translate(entities.get(i).getX(), entities.get(i).getY());
 					g2d.setColor(Color.BLACK);
-					//Ball s = (Ball) entities.get(i);
-					Box s = (Box) entities.get(i);
-					//g2d.fill(new Ellipse2D.Double(s.getX(), s.getY(), s.getRadius() * 2, s.getRadius() * 2));
-					Polygon rect = new Polygon();
-					rect.addPoint((int) Math.round(s.getCenter().getX()-s.width/2), (int) Math.round(s.getCenter().getY()+s.height/2));
-					rect.addPoint((int) Math.round(s.getCenter().getX()+s.width/2), (int) Math.round(s.getCenter().getY()+s.height/2));
-					rect.addPoint((int) Math.round(s.getCenter().getX()+s.width/2), (int) Math.round(s.getCenter().getY()-s.height/2));
-					rect.addPoint((int) Math.round(s.getCenter().getX()-s.width/2), (int) Math.round(s.getCenter().getY()-s.height/2));
-					Rectangle bounds = rect.getBounds();
-					at.rotate(s.getBearing(), s.getCenter().getX(), s.getCenter().getY());
-					Shape rotated = at.createTransformedShape(rect);
+					Ball s = (Ball) entities.get(i);
+					//Box s = (Box) entities.get(i);
+					g2d.fill(new Ellipse2D.Double(s.getX(), s.getY(), s.getRadius() * 2, s.getRadius() * 2));
+					//Polygon rect = new Polygon();
+					//rect.addPoint((int) Math.round(s.getCenter().getX()-s.width/2), (int) Math.round(s.getCenter().getY()+s.height/2));
+					//rect.addPoint((int) Math.round(s.getCenter().getX()+s.width/2), (int) Math.round(s.getCenter().getY()+s.height/2));
+					//rect.addPoint((int) Math.round(s.getCenter().getX()+s.width/2), (int) Math.round(s.getCenter().getY()-s.height/2));
+					//rect.addPoint((int) Math.round(s.getCenter().getX()-s.width/2), (int) Math.round(s.getCenter().getY()-s.height/2));
+					//Rectangle bounds = rect.getBounds();
+					//at.rotate(s.getBearing(), s.getCenter().getX(), s.getCenter().getY());
+					//Shape rotated = at.createTransformedShape(rect);
 					
-					//at.translate(s.getX(), s.getY());
-					g2d.fill(rotated);
+					at.translate(s.getX(), s.getY());
+					//g2d.fill(rotated);
 					//g2d.dispose();
 				}
 				// display frames per second...
@@ -128,10 +128,10 @@ public class PhysicsMain {
 		return false;
 	}
 
-	public static synchronized int createBall(int x, int y, double vx, double vy, int m) {
+	public static synchronized int createBall(int x, int y, double vx, double vy, double radius, int m) {
 		if (entities.size() >= MAX_SPAWN)
 			return 1;
-		entities.add(new Ball(x, y, vx, vy, m));
+		entities.add(new Ball(x, y, vx, vy, radius, m));
 		return 0;
 	}
 

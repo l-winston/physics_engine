@@ -64,8 +64,8 @@ public class MoveEngine extends Thread {
 
 	private synchronized void moveEnts() {
 		for (int i = 0; i < PhysicsMain.entities.size(); i++) {
-			Box s = (Box) PhysicsMain.entities.get(i);
-			// Ball s = (Ball) PhysicsMain.entities.get(i);
+			//Box s = (Box) PhysicsMain.entities.get(i);
+			Ball s = (Ball) PhysicsMain.entities.get(i);
 			// Get the initial x and y coords.
 			double oldX = s.getX(), oldY = s.getY();
 			// Calculate the new x and y coords.
@@ -74,7 +74,7 @@ public class MoveEngine extends Thread {
 			s.updatePos(newX, newY);
 			checkWallCollisions(s);
 		}
-		// checkBallCollisions();
+		checkBallCollisions();
 		// checkBoxCollisions
 	}
 

@@ -3,16 +3,17 @@ import java.awt.geom.Point2D;
 public class Ball extends Entity {
 	private double radius;
 
-	public Ball(int x, int y, double vx, double vy, int m) {
+	public Ball(int x, int y, double vx, double vy, double radius, int m) {
 		this.x = x;
 		this.y = y;
 		this.vx = vx;
 		this.vy = vy;
-		this.radius = 15.0;
+		//this.radius = Math.random()*5+15;
+		this.radius = 10;
 	}
 
 	public Ball(int x, int y) {
-		this(x, y, 0.0, 0.0, 100);
+		this(x, y, 0.0, 0.0, 15, 100);
 	}
 
 	public Vector2D velVector() {
