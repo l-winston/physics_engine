@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.geom.Point2D;
 
 public class Box extends Entity {
@@ -8,7 +9,7 @@ public class Box extends Entity {
 	 * with c1----------c2 | | | | height | | c4----------c3
 	 */
 
-	public Box(int x, int y, double vx, double vy, double bearing, int height, int width, int m) {
+	public Box(int x, int y, double vx, double vy, double bearing, int height, int width, int m, Color color) {
 		this.x = x;
 		this.y = y;
 		this.vx = vx;
@@ -16,10 +17,11 @@ public class Box extends Entity {
 		this.bearing = bearing;
 		this.width = width;
 		this.height = height;
+		this.color = color;
 	}
 
 	public Box(int x, int y) {
-		this(x, y, 0.0, 0.0, 0, 10, 10, 100);
+		this(x, y, 0.0, 0.0, 0, 10, 10, 100, Color.BLACK);
 	}
 
 	public Vector2D velVector() {
