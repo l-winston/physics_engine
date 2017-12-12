@@ -9,19 +9,20 @@ public class Box extends Entity {
 	 * with c1----------c2 | | | | height | | c4----------c3
 	 */
 
-	public Box(int x, int y, double vx, double vy, double bearing, int height, int width, int m, Color color) {
+	public Box(int x, int y, double vx, double vy, double bearing, double spin, int height, int width, int m, Color color) {
 		this.x = x;
 		this.y = y;
 		this.vx = vx;
 		this.vy = vy;
 		this.bearing = bearing;
+		this.spin = spin;
 		this.width = width;
 		this.height = height;
 		this.color = color;
 	}
 
 	public Box(int x, int y) {
-		this(x, y, 0.0, 0.0, 0, 10, 10, 100, Color.BLACK);
+		this(x, y, 0.0, 0.0, 0, 0, 10, 10, 100, Color.BLACK);
 	}
 
 	public Vector2D velVector() {
@@ -54,9 +55,5 @@ public class Box extends Entity {
 
 	public double getY2() {
 		return (this.y + this.dimY());
-	}
-	
-	public double getBearing(){
-		return this.bearing;
 	}
 }

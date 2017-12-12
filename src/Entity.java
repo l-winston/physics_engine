@@ -8,6 +8,7 @@ public abstract class Entity {
 	public double mass;
 	public Color color;
 	public double bearing;
+	public double spin;
 	public double angular_velocity;
 
 	/**
@@ -29,6 +30,18 @@ public abstract class Entity {
 
 	public double vy() {
 		return this.vy;
+	}
+
+	public double bearing() {
+		return this.bearing;
+	}
+
+	public double spin() {
+		return this.spin;
+	}
+
+	public Color color() {
+		return this.color;
 	}
 
 	public void setX(int newX) {
@@ -62,7 +75,6 @@ public abstract class Entity {
 		this.accelerations.clear();
 		return new Accel(xAccel, yAccel);
 	}
-	
 
 	public void applyDrag(double drag) {
 		this.vx = (drag * this.vx);

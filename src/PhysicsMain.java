@@ -7,12 +7,9 @@ import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Polygon;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.GeneralPath;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -80,7 +77,7 @@ public class PhysicsMain {
 				g2d.fillRect(0, 0, X, Y);
 				// Draw entities
 				for (int i = 0; i < entities.size(); i++) {
-					g2d.setColor(entities.get(i).color);
+					g2d.setColor(entities.get(i).color());
 					at = new AffineTransform();
 					if (entities.get(i) instanceof Ball) {
 						Ball s = (Ball) entities.get(i);
@@ -98,7 +95,7 @@ public class PhysicsMain {
 						rect.addPoint((int) Math.round(s.getCenter().getX() - s.width / 2),
 								(int) Math.round(s.getCenter().getY() - s.height / 2));
 
-						at.rotate(s.getBearing(), s.getCenter().getX(), s.getCenter().getY());
+						at.rotate(s.bearing(), s.getCenter().getX(), s.getCenter().getY());
 						Shape rotated = at.createTransformedShape(rect);
 
 						at.translate(s.getX(), s.getY());
@@ -140,11 +137,11 @@ public class PhysicsMain {
 		return 0;
 	}
 
-	public static synchronized int createBox(int x, int y, double vx, double vy, double bearing, int width, int height,
+	public static synchronized int createBox(int x, int y, double vx, double vy, double bearing, double spin, int width, int height,
 			int m, Color color) {
 		if (entities.size() >= MAX_SPAWN)
 			return 1;
-		entities.add(new Box(x, y, vx, vy, bearing, width, height, m, color));
+		entities.add(new Box(x, y, vx, vy, bearing, spin, width, height, m, color));
 		return 0;
 	}
 
