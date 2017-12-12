@@ -87,6 +87,7 @@ public class MoveEngine extends Thread {
 				Point2D sCenter = s.getCenter();
 				for (int j = i + 1; j < PhysicsMain.entities.size(); j++) {
 					if (PhysicsMain.entities.get(j) instanceof Ball) {
+						//if ball collides with ball
 						Ball t = (Ball) PhysicsMain.entities.get(j);
 						if (t == null)
 							break;
@@ -95,15 +96,33 @@ public class MoveEngine extends Thread {
 						if (distBetween < (s.getRadius() + t.getRadius()))
 							collide(s, t, distBetween);
 					}else if (PhysicsMain.entities.get(j) instanceof Box){
-						
+						//if ball collides with box
+						//TODO: create circumstances for a collision between a ball and a box
 					}
 				}
 			}else if (PhysicsMain.entities.get(i) instanceof Box){
-				
+				//if box collides with box
+				Box s = (Box) PhysicsMain.entities.get(i);
+				for (int j = i + 1; j < PhysicsMain.entities.size(); j++) {
+					if (PhysicsMain.entities.get(j) instanceof Box) {
+						Box t = (Box) PhysicsMain.entities.get(j);
+						if (t == null)
+							break;
+						//TODO: create circumstances for a collision between two boxes
+						//collide(s, t);
+					}
+				}
 			}
 		}
 	}
 
+	private synchronized void collide(Box s, Box t) {
+		//TODO: create outcome for a collision between two boxes
+	}
+	
+	private synchronized void collide(Box s, Ball t) {
+		//TODO: create outcome for a collision between a box and a ball
+	}
 
 	private synchronized void collide(Ball s, Ball t, double distBetween) {
 		// Get the relative x and y dist between them.
@@ -173,18 +192,22 @@ public class MoveEngine extends Thread {
 			if (s.getY() > maxY) {
 				s.updatePos(s.getX(), maxY);
 				s.updateVelocity(s.vx(), (s.vy() * -PhysicsMain.BOUNCE));
+				s.updateSpin(s.spin() * -PhysicsMain.BOUNCE);
 			}
 			if (s.getX() > maxX) {
 				s.updatePos(maxX, s.getY());
 				s.updateVelocity((s.vx() * -PhysicsMain.BOUNCE), s.vy());
+				s.updateSpin(s.spin() * -PhysicsMain.BOUNCE);
 			}
 			if (s.getX() < 1) {
 				s.updatePos(1, s.getY());
 				s.updateVelocity((s.vx() * -PhysicsMain.BOUNCE), s.vy());
+				s.updateSpin(s.spin() * -PhysicsMain.BOUNCE);
 			}
 			if (s.getY() < 1) {
 				s.updatePos(s.getX(), 1);
 				s.updateVelocity((s.vy() * -PhysicsMain.BOUNCE), s.vx());
+				s.updateSpin(s.spin() * -PhysicsMain.BOUNCE);
 			}
 		}
 	}
