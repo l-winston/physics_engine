@@ -57,7 +57,7 @@ public class MoveEngine extends Thread {
 			double vx = s.vx() + (theAccel.ax() * timeFraction);
 			double vy = s.vy() + (theAccel.ay() * timeFraction);
 			s.updateVelocity(vx, vy);
-			double bearing = s.bearing() + (s.spin() * timeFraction);
+			double bearing = s.bearing() + (s.spin() * timeFraction)%Math.toRadians(180);
 			s.updateBearing(bearing);
 			// Apply drag coefficient
 			s.applyDrag(1.0 - (timeFraction * PhysicsMain.DRAG));
@@ -67,7 +67,6 @@ public class MoveEngine extends Thread {
 	private synchronized void moveEnts() {
 		for (int i = 0; i < PhysicsMain.entities.size(); i++) {
 			Entity s = (Entity) PhysicsMain.entities.get(i);
-			// Ball s = (Ball) PhysicsMain.entities.get(i);
 			// Get the initial x and y coords.
 			double oldX = s.getX(), oldY = s.getY();
 			// Calculate the new x and y coords.
@@ -183,12 +182,17 @@ public class MoveEngine extends Thread {
 			}
 			if (s.getY() < 1) {
 				s.updatePos(s.getX(), 1);
-				s.updateVelocity((s.vy() * -PhysicsMain.BOUNCE), s.vx());
+				s.updateVelocity(s.vx(), (s.vy() * -PhysicsMain.BOUNCE));
 			}
 		}else if(e instanceof Box){
+			
+			
 			Box s = (Box) e;
-			int maxY = (int) (PhysicsMain.Y - s.getHeight());
-			int maxX = (int) (PhysicsMain.X - s.getWidth());
+			//height and width (distance between opposite corners)
+			double height = s.getRotated().getBounds2D().getMaxY()-s.getRotated().getBounds2D().getMinY();
+			double width = s.getRotated().getBounds2D().getMaxX()-s.getRotated().getBounds2D().getMinX();
+			int maxY = (int) (PhysicsMain.Y - height/2 - s.getHeight()/2);
+			int maxX = (int) (PhysicsMain.X - width/2 - s.getWidth()/2);
 			if (s.getY() > maxY) {
 				s.updatePos(s.getX(), maxY);
 				s.updateVelocity(s.vx(), (s.vy() * -PhysicsMain.BOUNCE));

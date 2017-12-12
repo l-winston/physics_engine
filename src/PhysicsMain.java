@@ -16,11 +16,11 @@ import javax.swing.*;
 
 public class PhysicsMain {
 	public static JFrame frame = new JFrame("Physics Engine");
-	public static final int MAX_SPAWN = 15;
+	public static final int MAX_SPAWN = 20;
 	public static final int X = 500;
 	public static final int Y = 500;
 	public static final double GRAVITY = 1500;
-	public static final double DRAG = 0.2;
+	public static final double DRAG = 0;
 	public static final double BOUNCE = 0.5;
 	public static BufferedImage image = new BufferedImage(X, Y, BufferedImage.TYPE_INT_RGB);
 	public static ArrayList<Entity> entities = new ArrayList<Entity>();
@@ -42,7 +42,7 @@ public class PhysicsMain {
 		Thread moveEngine = new MoveEngine();
 		moveEngine.start();
 		Thread makeBall = new MakeBall();
-		//makeBall.start();
+		makeBall.start();
 		Thread makeBox = new MakeBox();
 		makeBox.start();
 
