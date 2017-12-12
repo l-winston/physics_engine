@@ -187,8 +187,8 @@ public class MoveEngine extends Thread {
 			}
 		}else if(e instanceof Box){
 			Box s = (Box) e;
-			int maxY = PhysicsMain.Y - s.dimY();
-			int maxX = PhysicsMain.X - s.dimX();
+			int maxY = (int) (PhysicsMain.Y - s.getHeight());
+			int maxX = (int) (PhysicsMain.X - s.getWidth());
 			if (s.getY() > maxY) {
 				s.updatePos(s.getX(), maxY);
 				s.updateVelocity(s.vx(), (s.vy() * -PhysicsMain.BOUNCE));
@@ -206,7 +206,7 @@ public class MoveEngine extends Thread {
 			}
 			if (s.getY() < 1) {
 				s.updatePos(s.getX(), 1);
-				s.updateVelocity((s.vy() * -PhysicsMain.BOUNCE), s.vx());
+				s.updateVelocity(s.vx(), (s.vy() * -PhysicsMain.BOUNCE));
 				s.updateSpin(s.spin() * -PhysicsMain.BOUNCE);
 			}
 		}

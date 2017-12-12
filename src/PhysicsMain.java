@@ -6,8 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.Polygon;
-import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferStrategy;
@@ -18,12 +16,12 @@ import javax.swing.*;
 
 public class PhysicsMain {
 	public static JFrame frame = new JFrame("Physics Engine");
-	public static final int MAX_SPAWN = 300;
+	public static final int MAX_SPAWN = 15;
 	public static final int X = 500;
 	public static final int Y = 500;
 	public static final double GRAVITY = 1500;
 	public static final double DRAG = 0.2;
-	public static final double BOUNCE = 0.9;
+	public static final double BOUNCE = 0.5;
 	public static BufferedImage image = new BufferedImage(X, Y, BufferedImage.TYPE_INT_RGB);
 	public static ArrayList<Entity> entities = new ArrayList<Entity>();
 
@@ -44,7 +42,7 @@ public class PhysicsMain {
 		Thread moveEngine = new MoveEngine();
 		moveEngine.start();
 		Thread makeBall = new MakeBall();
-		makeBall.start();
+		//makeBall.start();
 		Thread makeBox = new MakeBox();
 		makeBox.start();
 
@@ -85,21 +83,10 @@ public class PhysicsMain {
 						g2d.fill(new Ellipse2D.Double(s.getX(), s.getY(), s.getRadius() * 2, s.getRadius() * 2));
 					} else if (entities.get(i) instanceof Box) {
 						Box s = (Box) entities.get(i);
-						Polygon rect = new Polygon();
-						rect.addPoint((int) Math.round(s.getCenter().getX() - s.width / 2),
-								(int) Math.round(s.getCenter().getY() + s.height / 2));
-						rect.addPoint((int) Math.round(s.getCenter().getX() + s.width / 2),
-								(int) Math.round(s.getCenter().getY() + s.height / 2));
-						rect.addPoint((int) Math.round(s.getCenter().getX() + s.width / 2),
-								(int) Math.round(s.getCenter().getY() - s.height / 2));
-						rect.addPoint((int) Math.round(s.getCenter().getX() - s.width / 2),
-								(int) Math.round(s.getCenter().getY() - s.height / 2));
-
-						at.rotate(s.bearing(), s.getCenter().getX(), s.getCenter().getY());
-						Shape rotated = at.createTransformedShape(rect);
-
-						at.translate(s.getX(), s.getY());
-						g2d.fill(rotated);
+						
+						s.updateRect();
+												
+						g2d.fill(s.getRotated());
 					}
 				}
 				// display frames per second...
