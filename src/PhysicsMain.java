@@ -21,7 +21,7 @@ import javax.swing.*;
 
 public class PhysicsMain {
 	public static JFrame frame = new JFrame("Physics Engine");
-	public static final int MAX_SPAWN = 30;
+	public static final int MAX_SPAWN = 300;
 	public static final int X = 500;
 	public static final int Y = 500;
 	public static final double GRAVITY = 1500;
@@ -83,8 +83,8 @@ public class PhysicsMain {
 				for (int i = 0; i < entities.size(); i++) {
 					at = new AffineTransform();
 					at.translate(entities.get(i).getX(), entities.get(i).getY());
-					g2d.setColor(Color.BLACK);
 					Ball s = (Ball) entities.get(i);
+					g2d.setColor(s.color);
 					//Box s = (Box) entities.get(i);
 					g2d.fill(new Ellipse2D.Double(s.getX(), s.getY(), s.getRadius() * 2, s.getRadius() * 2));
 					//Polygon rect = new Polygon();
@@ -128,10 +128,10 @@ public class PhysicsMain {
 		return false;
 	}
 
-	public static synchronized int createBall(int x, int y, double vx, double vy, double radius, int m) {
+	public static synchronized int createBall(int x, int y, double vx, double vy, double radius, int m, Color c) {
 		if (entities.size() >= MAX_SPAWN)
 			return 1;
-		entities.add(new Ball(x, y, vx, vy, radius, m));
+		entities.add(new Ball(x, y, vx, vy, radius, m, c));
 		return 0;
 	}
 

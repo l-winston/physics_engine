@@ -89,8 +89,8 @@ public class MoveEngine extends Thread {
 					break;
 				Point2D tCenter = t.getCenter();
 				double distBetween = sCenter.distance(tCenter);
-				double bigR = s.getRadius() > t.getRadius() ? s.getRadius() : t.getRadius();
-				if (distBetween < (bigR * 2))
+				//double bigR = s.getRadius() > t.getRadius() ? s.getRadius() : t.getRadius();
+				if (distBetween < (s.getRadius()+t.getRadius()))
 					collide(s, t, distBetween);
 			}
 		}
@@ -116,7 +116,7 @@ public class MoveEngine extends Thread {
 		double relY = s.getY() - t.getY();
 		// Take the arctan to find the collision angle.
 		double collisionAngle = Math.atan2(relY, relX);
-		// if (collisionAngle < 0) collisionAngle += 2 * Math.PI;
+		if (collisionAngle < 0) collisionAngle += 2 * Math.PI;
 		// Rotate the coordinate systems for each object's velocity to align
 		// with the collision angle. We do this by supplying the collision angle
 		// to the vector's rotateCoordinates method.

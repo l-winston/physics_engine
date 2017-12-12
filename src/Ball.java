@@ -1,19 +1,20 @@
+import java.awt.Color;
 import java.awt.geom.Point2D;
 
 public class Ball extends Entity {
 	private double radius;
 
-	public Ball(int x, int y, double vx, double vy, double radius, int m) {
+	public Ball(int x, int y, double vx, double vy, double radius, int m, Color c) {
 		this.x = x;
 		this.y = y;
 		this.vx = vx;
 		this.vy = vy;
-		//this.radius = Math.random()*5+15;
-		this.radius = 10;
+		this.radius = radius;
+		this.color = c;
 	}
 
 	public Ball(int x, int y) {
-		this(x, y, 0.0, 0.0, 15, 100);
+		this(x, y, 0.0, 0.0, 15, 100, Color.BLACK);
 	}
 
 	public Vector2D velVector() {
