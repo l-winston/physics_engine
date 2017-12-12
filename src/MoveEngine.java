@@ -57,6 +57,8 @@ public class MoveEngine extends Thread {
 			double vx = s.vx() + (theAccel.ax() * timeFraction);
 			double vy = s.vy() + (theAccel.ay() * timeFraction);
 			s.updateVelocity(vx, vy);
+			double bearing = s.bearing() + (s.spin() * timeFraction);
+			s.updateBearing(bearing);
 			// Apply drag coefficient
 			s.applyDrag(1.0 - (timeFraction * PhysicsMain.DRAG));
 		}
@@ -146,7 +148,6 @@ public class MoveEngine extends Thread {
 	private synchronized void checkWallCollisions(Entity e) {
 		if (e instanceof Ball) {
 			Ball s = (Ball) e;
-			// check distance from center to wall (only applicable for balls)
 			int maxY = PhysicsMain.Y - s.dimY();
 			int maxX = PhysicsMain.X - s.dimX();
 			if (s.getY() > maxY) {
@@ -167,7 +168,6 @@ public class MoveEngine extends Thread {
 			}
 		}else if(e instanceof Box){
 			Box s = (Box) e;
-			// check distance from center to wall (only applicable for balls)
 			int maxY = PhysicsMain.Y - s.dimY();
 			int maxX = PhysicsMain.X - s.dimX();
 			if (s.getY() > maxY) {

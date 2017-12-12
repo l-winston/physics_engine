@@ -9,11 +9,7 @@ public abstract class Entity {
 	public Color color;
 	public double bearing;
 	public double spin;
-	public double angular_velocity;
 
-	/**
-	 * bearing of Entity (in radians)
-	 */
 	public double direction;
 
 	public double getX() {
@@ -61,11 +57,19 @@ public abstract class Entity {
 		this.x = newX;
 		this.y = newY;
 	}
+	
+	public void updateBearing(double bearing){
+		this.bearing = bearing;
+	}
+	
+	public void updateSpin(double spin){
+		this.spin = spin;
+	}
 
 	public void addAccel(Accel a) {
 		this.accelerations.add(a);
 	}
-
+	
 	public Accel sumAccel() {
 		double xAccel = 0, yAccel = 0;
 		for (int i = 0; i < this.accelerations.size(); i++) {
@@ -79,5 +83,6 @@ public abstract class Entity {
 	public void applyDrag(double drag) {
 		this.vx = (drag * this.vx);
 		this.vy = (drag * this.vy);
+		this.spin = (drag * this.spin);
 	}
 }

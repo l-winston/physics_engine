@@ -5,10 +5,6 @@ public class Box extends Entity {
 	public double height;
 	public double width;
 
-	/*
-	 * with c1----------c2 | | | | height | | c4----------c3
-	 */
-
 	public Box(int x, int y, double vx, double vy, double bearing, double spin, int height, int width, int m, Color color) {
 		this.x = x;
 		this.y = y;
