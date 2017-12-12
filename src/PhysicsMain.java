@@ -46,8 +46,8 @@ public class PhysicsMain {
 
 		Thread moveEngine = new MoveEngine();
 		moveEngine.start();
-		//Thread makeBall = new MakeBall();
-		//makeBall.start();
+		Thread makeBall = new MakeBall();
+		makeBall.start();
 		Thread makeBox = new MakeBox();
 		makeBox.start();
 
@@ -80,29 +80,30 @@ public class PhysicsMain {
 				g2d.fillRect(0, 0, X, Y);
 				// Draw entities
 				for (int i = 0; i < entities.size(); i++) {
+					g2d.setColor(entities.get(i).color);
 					at = new AffineTransform();
-					//at.translate(entities.get(i).getX(), entities.get(i).getY());
-					
-					//Ball s = (Ball) entities.get(i);
-					Box s = (Box) entities.get(i);
+					if (entities.get(i) instanceof Ball) {
+						Ball s = (Ball) entities.get(i);
+						at.translate(s.getX(), s.getY());
+						g2d.fill(new Ellipse2D.Double(s.getX(), s.getY(), s.getRadius() * 2, s.getRadius() * 2));
+					} else if (entities.get(i) instanceof Box) {
+						Box s = (Box) entities.get(i);
+						Polygon rect = new Polygon();
+						rect.addPoint((int) Math.round(s.getCenter().getX() - s.width / 2),
+								(int) Math.round(s.getCenter().getY() + s.height / 2));
+						rect.addPoint((int) Math.round(s.getCenter().getX() + s.width / 2),
+								(int) Math.round(s.getCenter().getY() + s.height / 2));
+						rect.addPoint((int) Math.round(s.getCenter().getX() + s.width / 2),
+								(int) Math.round(s.getCenter().getY() - s.height / 2));
+						rect.addPoint((int) Math.round(s.getCenter().getX() - s.width / 2),
+								(int) Math.round(s.getCenter().getY() - s.height / 2));
 
-					g2d.setColor(s.color);
-					
-					//g2d.fill(new Ellipse2D.Double(s.getX(), s.getY(), s.getRadius() * 2, s.getRadius() * 2));
+						at.rotate(s.getBearing(), s.getCenter().getX(), s.getCenter().getY());
+						Shape rotated = at.createTransformedShape(rect);
 
-					Polygon rect = new Polygon();
-					rect.addPoint((int) Math.round(s.getCenter().getX()-s.width/2), (int) Math.round(s.getCenter().getY()+s.height/2));
-					rect.addPoint((int) Math.round(s.getCenter().getX()+s.width/2), (int) Math.round(s.getCenter().getY()+s.height/2));
-					rect.addPoint((int) Math.round(s.getCenter().getX()+s.width/2), (int) Math.round(s.getCenter().getY()-s.height/2));
-					rect.addPoint((int) Math.round(s.getCenter().getX()-s.width/2), (int) Math.round(s.getCenter().getY()-s.height/2));
-					
-					System.out.println(s.getX() + " " + s.getY());
-					
-					at.rotate(s.getBearing(), s.getCenter().getX(), s.getCenter().getY());
-					Shape rotated = at.createTransformedShape(rect);
-					
-					at.translate(s.getX(), s.getY());
-					g2d.fill(rotated);
+						at.translate(s.getX(), s.getY());
+						g2d.fill(rotated);
+					}
 				}
 				// display frames per second...
 				g2d.setFont(new Font("Courier New", Font.PLAIN, 12));
@@ -139,7 +140,8 @@ public class PhysicsMain {
 		return 0;
 	}
 
-	public static synchronized int createBox(int x, int y, double vx, double vy, double bearing, int width, int height, int m, Color color) {
+	public static synchronized int createBox(int x, int y, double vx, double vy, double bearing, int width, int height,
+			int m, Color color) {
 		if (entities.size() >= MAX_SPAWN)
 			return 1;
 		entities.add(new Box(x, y, vx, vy, bearing, width, height, m, color));
