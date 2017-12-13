@@ -1,3 +1,4 @@
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -185,8 +186,6 @@ public class MoveEngine extends Thread {
 				s.updateVelocity(s.vx(), (s.vy() * -PhysicsMain.BOUNCE));
 			}
 		}else if(e instanceof Box){
-			
-			
 			Box s = (Box) e;
 			//height and width (distance between opposite corners)
 			double height = s.getRotated().getBounds2D().getMaxY()-s.getRotated().getBounds2D().getMinY();
@@ -202,16 +201,23 @@ public class MoveEngine extends Thread {
 				s.updatePos(maxX, s.getY());
 				s.updateVelocity((s.vx() * -PhysicsMain.BOUNCE), s.vy());
 				s.updateSpin(s.spin() * -PhysicsMain.BOUNCE);
+
 			}
 			if (s.getX() < 1) {
 				s.updatePos(1, s.getY());
 				s.updateVelocity((s.vx() * -PhysicsMain.BOUNCE), s.vy());
 				s.updateSpin(s.spin() * -PhysicsMain.BOUNCE);
+
 			}
 			if (s.getY() < 1) {
 				s.updatePos(s.getX(), 1);
 				s.updateVelocity(s.vx(), (s.vy() * -PhysicsMain.BOUNCE));
 				s.updateSpin(s.spin() * -PhysicsMain.BOUNCE);
+			}
+			Area r = new Area(s.getRotated());
+			r.intersect(PhysicsMain.down);
+			if(!r.isEmpty()){
+				System.out.println("down");
 			}
 		}
 	}

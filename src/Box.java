@@ -2,13 +2,16 @@ import java.awt.Color;
 import java.awt.Polygon;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 public class Box extends Entity {
 	public double height;
 	public double width;
 	public Polygon rect;
 	public Shape rotated;
+	public static int temp = 0;
 
 	public Box(int x, int y, double vx, double vy, double bearing, double spin, int height, int width, int m,
 			Color color) {
@@ -79,13 +82,13 @@ public class Box extends Entity {
 				(int) Math.round(this.getCenter().getY() - this.height / 2));
 		rect.addPoint((int) Math.round(this.getCenter().getX() - this.width / 2),
 				(int) Math.round(this.getCenter().getY() - this.height / 2));
-
 		
 		//transform the rectangle (takes into account bearing)
 		AffineTransform at = new AffineTransform();
 
 		at.rotate(this.bearing(), this.getCenter().getX(), this.getCenter().getY());
 		rotated = at.createTransformedShape(this.getRect());
+
 	}
 
 	public Shape getRotated() {
