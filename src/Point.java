@@ -2,7 +2,6 @@
 public class Point {
 	public double x;
 	public double y;
-	public boolean isPolar;
 	
 	public Point(double x, double y) {
 		this.x = x;
@@ -52,6 +51,14 @@ public class Point {
 		this.y = bearing;
 	}
 
+	public double getX(){
+		return this.x;
+	}
+	
+	public double getY(){
+		return this.y;
+	}
+	
 	public String toString() {
 		return x + " " + y;
 	}

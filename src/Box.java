@@ -7,12 +7,28 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 public class Box extends Entity {
+	public static final double BOUNCE = PhysicsMain.BOUNCE;
+	
+	/**
+	 * side length (height)
+	 */
 	public double height;
+	
+	/**
+	 * side length (width)
+	 */
 	public double width;
+	
+	/**
+	 * this box, created around 0, 0 and translated to its center's coordinates
+	 */
 	public Polygon rect;
+	
+	/**
+	 * this box, rotated
+	 */
 	public Shape rotated;
-	public static int temp = 0;
-
+	
 	public Box(int x, int y, double vx, double vy, double bearing, double spin, int height, int width, int m,
 			Color color) {
 		this.x = x;
@@ -44,31 +60,46 @@ public class Box extends Entity {
 		this(x, y, 0.0, 0.0, 0, 0, 10, 10, 100, Color.BLACK);
 	}
 
-	public Vector2D velVector() {
-		return new Vector2D(this.vx(), this.vy());
-	}
-
 	/**
-	 * @return center of rectangle
+	 * @return side length (width)
 	 */
-	public Point2D getCenter() {
-		return new Point2D.Double(this.x + (this.getWidth() / 2), this.y + (this.getHeight() / 2));
-	}
-
 	public double getWidth() {
 		return this.width;
 	}
 
+	/**
+	 * @return side length (width)
+	 */
 	public double getHeight() {
 		return this.height;
 	}
 
-	public double getX2() {
-		return (this.x + this.getWidth());
+	/**
+	 * @return greatest x coordinate of this Box
+	 */
+	public double maxX() {
+		return this.rotated.getBounds2D().getMaxX();
 	}
 
-	public double getY2() {
-		return (this.y + this.getHeight());
+	/**
+	 * @return least x coordinate of this Box
+	 */
+	public double minX() {
+		return this.rotated.getBounds2D().getMinX();
+	}
+	
+	/**
+	 * @return greatest y coordinate of this Box
+	 */
+	public double maxY() {
+		return this.rotated.getBounds2D().getMaxY();
+	}
+	
+	/**
+	 * @return least y coordinate of this Box
+	 */
+	public double minY() {
+		return this.rotated.getBounds2D().getMinY();
 	}
 
 	public void updateRect() {
@@ -91,10 +122,16 @@ public class Box extends Entity {
 
 	}
 
+	/**
+	 * @return this rectangle, rotated bearing degrees (radians)
+	 */
 	public Shape getRotated() {
 		return this.rotated;
 	}
 
+	/**
+	 * @return this rectangle, translated to its center
+	 */
 	public Polygon getRect() {
 		return this.rect;
 	}

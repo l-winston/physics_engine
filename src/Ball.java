@@ -17,21 +17,12 @@ public class Ball extends Entity {
 		this(x, y, 0.0, 0.0, 15, 100, Color.BLACK);
 	}
 
-	public Vector2D velVector() {
-		return new Vector2D(this.vx(), this.vy());
-	}
-
-
 	public int dimX() {
 		return (int) (this.radius * 2);
 	}
 
 	public int dimY() {
 		return (int) (this.radius * 2);
-	}
-
-	public Point2D getCenter() {
-		return new Point2D.Double(this.x + (this.dimX() / 2), this.y + (this.dimY() / 2));
 	}
 
 	public double getRadius() {

@@ -1,8 +1,10 @@
 import java.awt.Color;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public abstract class Entity {
 	public ArrayList<Accel> accelerations = new ArrayList<Accel>();
+	public ArrayList<Spring> springs = new ArrayList<Spring>();
 
 	public double x, y, vx, vy;
 	public double mass;
@@ -18,6 +20,10 @@ public abstract class Entity {
 
 	public double getY() {
 		return this.y;
+	}
+
+	public Point2D getCenter() {
+		return new Point2D.Double(this.x, this.y);
 	}
 
 	public double vx() {
@@ -53,23 +59,30 @@ public abstract class Entity {
 		this.vy = vy;
 	}
 
+	/**
+	 * @return velocity vector (x, y)
+	 */
+	public Vector2D velVector() {
+		return new Vector2D(this.vx(), this.vy());
+	}
+
 	public void updatePos(double newX, double newY) {
 		this.x = newX;
 		this.y = newY;
 	}
-	
-	public void updateBearing(double bearing){
+
+	public void updateBearing(double bearing) {
 		this.bearing = bearing;
 	}
-	
-	public void updateSpin(double spin){
+
+	public void updateSpin(double spin) {
 		this.spin = spin;
 	}
 
 	public void addAccel(Accel a) {
 		this.accelerations.add(a);
 	}
-	
+
 	public Accel sumAccel() {
 		double xAccel = 0, yAccel = 0;
 		for (int i = 0; i < this.accelerations.size(); i++) {
@@ -84,5 +97,43 @@ public abstract class Entity {
 		this.vx = (drag * this.vx);
 		this.vy = (drag * this.vy);
 		this.spin = (drag * this.spin);
+	}
+
+	public void createSpring(Entity B, double k) {
+		this.springs.add(new Spring(this, B, k));
+	}
+
+	public Point getSpringForces() {
+		double x = 0;
+		double y = 0;
+
+		for (Spring s : this.springs) {
+			Point2D aCenter;
+			Point2D bCenter;
+			if(this.equals(s.A)){
+				aCenter = s.A.getCenter();
+				bCenter = s.B.getCenter();
+				System.out.println("this is a");
+			}else{
+				bCenter = s.A.getCenter();
+				aCenter = s.B.getCenter();
+				System.out.println("this is b");
+			}
+			double relX = bCenter.getX() - aCenter.getX();
+			double relY = bCenter.getY() - aCenter.getY();
+			
+			relX*=-1;
+			relY*=-1;
+			
+			Point p = new Point(relX, relY);
+			p.getPolar();
+			// set magnitude
+			p.y *= s.k;
+			p.getUnitVectors();
+			x += p.x;
+			y += p.y;
+		}
+
+		return new Point(x, y);
 	}
 }
