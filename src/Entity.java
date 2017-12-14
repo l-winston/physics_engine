@@ -101,6 +101,7 @@ public abstract class Entity {
 
 	public void createSpring(Entity B, double k, Color c) {
 		this.springs.add(new Spring(this, B, k, c));
+		B.springs.add(new Spring(B, this, k, c));
 	}
 
 	public Point getSpringForces() {
@@ -123,7 +124,6 @@ public abstract class Entity {
 			y += p.y;
 			
 		}
-		System.out.println(x + " " + y);
 
 		return new Point(x, y);
 	}
