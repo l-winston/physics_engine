@@ -99,8 +99,8 @@ public abstract class Entity {
 		this.spin = (drag * this.spin);
 	}
 
-	public void createSpring(Entity B, double k) {
-		this.springs.add(new Spring(this, B, k));
+	public void createSpring(Entity B, double k, Color c) {
+		this.springs.add(new Spring(this, B, k, c));
 	}
 
 	public Point getSpringForces() {
@@ -108,31 +108,22 @@ public abstract class Entity {
 		double y = 0;
 
 		for (Spring s : this.springs) {
-			Point2D aCenter;
-			Point2D bCenter;
-			if(this.equals(s.A)){
-				aCenter = s.A.getCenter();
-				bCenter = s.B.getCenter();
-				System.out.println("this is a");
-			}else{
-				bCenter = s.A.getCenter();
-				aCenter = s.B.getCenter();
-				System.out.println("this is b");
-			}
+			Point2D aCenter = s.A.getCenter();
+			Point2D bCenter = s.B.getCenter();
+			
 			double relX = bCenter.getX() - aCenter.getX();
 			double relY = bCenter.getY() - aCenter.getY();
-			
-			relX*=-1;
-			relY*=-1;
 			
 			Point p = new Point(relX, relY);
 			p.getPolar();
 			// set magnitude
-			p.y *= s.k;
+			p.x *= s.k;
 			p.getUnitVectors();
 			x += p.x;
 			y += p.y;
+			
 		}
+		System.out.println(x + " " + y);
 
 		return new Point(x, y);
 	}

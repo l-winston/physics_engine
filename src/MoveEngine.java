@@ -59,8 +59,8 @@ public class MoveEngine extends Thread {
 			double vy = s.vy() + (theAccel.ay() * timeFraction);
 			
 			Point springForces = s.getSpringForces();
-			vx += springForces.getX();
-			vy += springForces.getY();
+			vx += springForces.getX()*timeFraction;
+			vy += springForces.getY()*timeFraction;
 			
 			s.updateVelocity(vx, vy);
 			double bearing = s.bearing() + (s.spin() * timeFraction) % Math.toRadians(180);

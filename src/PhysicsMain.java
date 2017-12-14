@@ -25,9 +25,9 @@ public class PhysicsMain {
 	public static final int MAX_SPAWN = 500;
 	public static final int X = 500;
 	public static final int Y = 500;
-	public static final double GRAVITY = 1500;
-	public static final double DRAG = 0.2;
-	public static final double BOUNCE = 0.9;
+	public static final double GRAVITY = 0;
+	public static final double DRAG = 0;
+	public static final double BOUNCE = 1;
 	public static BufferedImage image = new BufferedImage(X, Y, BufferedImage.TYPE_INT_RGB);
 	public static ArrayList<Entity> entities = new ArrayList<Entity>();
 
@@ -89,27 +89,35 @@ public class PhysicsMain {
 
 				g2d.setColor(Color.RED);
 				g2d.fill(down);
-				g2d.setColor(Color.RED);
 				g2d.fill(left);
-				g2d.setColor(Color.RED);
 				g2d.fill(right);
-				g2d.setColor(Color.RED);
 				g2d.fill(up);
+				
 				// Draw entities
 				for (int i = 0; i < entities.size(); i++) {
-					g2d.setColor(entities.get(i).color());
+					Entity e = entities.get(i);
+					g2d.setColor(e.color());
 					at = new AffineTransform();
-					if (entities.get(i) instanceof Ball) {
-						Ball s = (Ball) entities.get(i);
+					if (e instanceof Ball) {
+						Ball s = (Ball) e;
 						at.translate(s.getX(), s.getY());
 						g2d.fill(new Ellipse2D.Double(s.getX(), s.getY(), s.getRadius() * 2, s.getRadius() * 2));
-					} else if (entities.get(i) instanceof Box) {
-						Box s = (Box) entities.get(i);
+					} else if (e instanceof Box) {
+						Box s = (Box) e;
 
 						s.updateRect();
 
 						g2d.fill(s.getRotated());
 					}
+					if(!e.springs.isEmpty()){
+						for(Spring s : e.springs){
+							java.awt.geom.Point2D c1 = s.A.getCenter();
+							java.awt.geom.Point2D c2 = s.B.getCenter();
+							g2d.setColor(s.color);
+							g2d.drawLine((int) Math.round(c1.getX()), (int) Math.round(c1.getY()), (int) Math.round(c2.getX()), (int) Math.round(c2.getY()));
+						}
+					}
+					
 				}
 				// display frames per second...
 				g2d.setFont(new Font("Courier New", Font.PLAIN, 12));

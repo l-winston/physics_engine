@@ -36,4 +36,8 @@ public class Ball extends Entity {
 	public double getY2() {
 		return (this.y + this.dimY());
 	}
+	
+	public Point2D getCenter() {
+		return new Point2D.Double(this.x+this.radius, this.y+this.radius);
+	}
 }
