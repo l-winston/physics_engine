@@ -7,7 +7,7 @@ public class MoveEngine extends Thread {
 	private long curTime = 0;
 	private long lastTime = 0;
 	private double timeFraction = 0.0;
-	private ArrayList<Accel> constForces = new ArrayList<Accel>();
+	private ArrayList<Force> constForces = new ArrayList<Force>();
 
 	public void run() {
 		curTime = System.currentTimeMillis();
@@ -32,41 +32,41 @@ public class MoveEngine extends Thread {
 	}
 
 	private void initializeConstForces() {
-		constForces.add(new Accel(0.0, PhysicsMain.GRAVITY));
+		constForces.add(new Force(0.0, PhysicsMain.GRAVITY));
 	}
 
 	private synchronized void applyConstForces() {
-		double xAccel = 0, yAccel = 0;
-		// Find the total acceleration of all const forces.
+		double xForce = 0, yForce = 0;
+		// Find the total Forceeration of all const forces.
 		for (int i = 0; i < constForces.size(); i++) {
-			xAccel += constForces.get(i).ax();
-			yAccel += constForces.get(i).ay();
+			xForce += constForces.get(i).ax();
+			yForce += constForces.get(i).ay();
 		}
-		// Apply the sum acceleration to each entity.
+		// Apply the sum Forceeration to each entity.
 		for (int i = 0; i < PhysicsMain.entities.size(); i++) {
 			Entity s = PhysicsMain.entities.get(i);
-			s.addAccel(new Accel(xAccel, yAccel));
+			s.addForce(new Force(xForce, yForce));
 		}
 	}
 
 	private synchronized void sumForces() {
 		for (int i = 0; i < PhysicsMain.entities.size(); i++) {
 			Entity s = PhysicsMain.entities.get(i);
-			// Get the sum of all accelerations acting on object.
-			Accel theAccel = s.sumAccel();
+			// Get the sum of all Forceerations acting on object.
+			Force theForce = s.sumForce();
 			// Apply the resulting change in velocity.
-			double vx = s.vx() + (theAccel.ax() * timeFraction);
-			double vy = s.vy() + (theAccel.ay() * timeFraction);
+			double vx = s.getVX() + (theForce.ax() * timeFraction);
+			double vy = s.getVY() + (theForce.ay() * timeFraction);
 			
 			Point springForces = s.getSpringForces();
 			vx += springForces.getX()*timeFraction;
 			vy += springForces.getY()*timeFraction;
 			
-			s.updateVelocity(vx, vy);
-			double bearing = s.bearing() + (s.spin() * timeFraction) % Math.toRadians(180);
-			s.updateBearing(bearing);
+			s.setVelocity(vx, vy);
+			double bearing = s.getBearing() + (s.getRotationalVelocity() * timeFraction) % Math.toRadians(180);
+			s.setBearing(bearing);
+			
 			// Apply drag coefficient
-			s.applyDrag(1.0 - (timeFraction * PhysicsMain.DRAG));
 		}
 	}
 
@@ -76,9 +76,9 @@ public class MoveEngine extends Thread {
 			// Get the initial x and y coords.
 			double oldX = s.getX(), oldY = s.getY();
 			// Calculate the new x and y coords.
-			double newX = oldX + (s.vx() * timeFraction);
-			double newY = oldY + (s.vy() * timeFraction);
-			s.updatePos(newX, newY);
+			double newX = oldX + (s.getVX() * timeFraction);
+			double newY = oldY + (s.getVY() * timeFraction);
+			s.setPosition(newX, newY);
 			checkWallCollisions(s);
 		}
 		checkCollisions();
@@ -142,7 +142,7 @@ public class MoveEngine extends Thread {
 		// Rotate the coordinate systems for each object's velocity to align
 		// with the collision angle. We do this by supplying the collision angle
 		// to the vector's rotateCoordinates method.
-		Vector2D sVel = s.velVector(), tVel = t.velVector();
+		Vector2D sVel = s.getVelocityVector(), tVel = t.getVelocityVector();
 		sVel.rotateCoordinates(collisionAngle);
 		tVel.rotateCoordinates(collisionAngle);
 		// In the collision coordinate system, the contact normals lie on the
@@ -157,18 +157,18 @@ public class MoveEngine extends Thread {
 		sVel.restoreCoordinates();
 		tVel.restoreCoordinates();
 		// Give each object its new velocity.
-		s.updateVelocity(sVel.x * PhysicsMain.BOUNCE, sVel.y * PhysicsMain.BOUNCE);
-		t.updateVelocity(tVel.x * PhysicsMain.BOUNCE, tVel.y * PhysicsMain.BOUNCE);
+		s.setVelocity(sVel.x * PhysicsMain.BOUNCE, sVel.y * PhysicsMain.BOUNCE);
+		t.setVelocity(tVel.x * PhysicsMain.BOUNCE, tVel.y * PhysicsMain.BOUNCE);
 		// Back them up in the opposite angle so they are not overlapping.
 		double minDist = s.getRadius() + t.getRadius();
 		double overlap = minDist - distBetween;
 		double toMove = overlap / 2;
 		double newX = s.getX() + (toMove * Math.cos(collisionAngle));
 		double newY = s.getY() + (toMove * Math.sin(collisionAngle));
-		s.updatePos(newX, newY);
+		s.setPosition(newX, newY);
 		newX = t.getX() - (toMove * Math.cos(collisionAngle));
 		newY = t.getY() - (toMove * Math.sin(collisionAngle));
-		t.updatePos(newX, newY);
+		t.setPosition(newX, newY);
 	}
 
 	private synchronized void checkWallCollisions(Entity e) {
@@ -177,20 +177,20 @@ public class MoveEngine extends Thread {
 			int maxY = PhysicsMain.Y - s.dimY();
 			int maxX = PhysicsMain.X - s.dimX();
 			if (s.getY() > maxY) {
-				s.updatePos(s.getX(), maxY);
-				s.updateVelocity(s.vx(), (s.vy() * -PhysicsMain.BOUNCE));
+				s.setPosition(s.getX(), maxY);
+				s.setVelocity(s.getVX(), (s.getVY() * -PhysicsMain.BOUNCE));
 			}
 			if (s.getX() > maxX) {
-				s.updatePos(maxX, s.getY());
-				s.updateVelocity((s.vx() * -PhysicsMain.BOUNCE), s.vy());
+				s.setPosition(maxX, s.getY());
+				s.setVelocity((s.getVX() * -PhysicsMain.BOUNCE), s.getVY());
 			}
 			if (s.getX() < 1) {
-				s.updatePos(1, s.getY());
-				s.updateVelocity((s.vx() * -PhysicsMain.BOUNCE), s.vy());
+				s.setPosition(1, s.getY());
+				s.setVelocity((s.getVX() * -PhysicsMain.BOUNCE), s.getVY());
 			}
 			if (s.getY() < 1) {
-				s.updatePos(s.getX(), 1);
-				s.updateVelocity(s.vx(), (s.vy() * -PhysicsMain.BOUNCE));
+				s.setPosition(s.getX(), 1);
+				s.setVelocity(s.getVX(), (s.getVY() * -PhysicsMain.BOUNCE));
 			}
 		} else if (e instanceof Box) {
 			Box s = (Box) e;
@@ -204,26 +204,22 @@ public class MoveEngine extends Thread {
 			int maxX = (int) (PhysicsMain.right.getBounds().getMaxX() - width / 2);
 			int minX = (int) (PhysicsMain.left.getBounds().getMinX() + width / 2);
 			if (s.getY() > maxY) {
-				s.updatePos(s.getX(), maxY);
-				s.updateVelocity(s.vx(), (s.vy() * -PhysicsMain.BOUNCE));
-				s.updateSpin(s.spin() * -PhysicsMain.BOUNCE);
+				s.setPosition(s.getX(), maxY);
+				s.setVelocity(s.getVX(), (s.getVY() * -PhysicsMain.BOUNCE));
 			}
 			if (s.getX() > maxX) {
-				s.updatePos(maxX, s.getY());
-				s.updateVelocity((s.vx() * -PhysicsMain.BOUNCE), s.vy());
-				s.updateSpin(s.spin() * -PhysicsMain.BOUNCE);
+				s.setPosition(maxX, s.getY());
+				s.setVelocity((s.getVX() * -PhysicsMain.BOUNCE), s.getVY());
 
 			}
 			if (s.getX() < minX) {
-				s.updatePos(minX, s.getY());
-				s.updateVelocity((s.vx() * -PhysicsMain.BOUNCE), s.vy());
-				s.updateSpin(s.spin() * -PhysicsMain.BOUNCE);
+				s.setPosition(minX, s.getY());
+				s.setVelocity((s.getVX() * -PhysicsMain.BOUNCE), s.getVY());
 
 			}
 			if (s.getY() < minY) {
-				s.updatePos(s.getX(), minY);
-				s.updateVelocity(s.vx(), (s.vy() * -PhysicsMain.BOUNCE));
-				s.updateSpin(s.spin() * -PhysicsMain.BOUNCE);
+				s.setPosition(s.getX(), minY);
+				s.setVelocity(s.getVX(), (s.getVY() * -PhysicsMain.BOUNCE));
 			}
 			Area r = new Area(s.getRotated());
 			r.intersect(PhysicsMain.down);

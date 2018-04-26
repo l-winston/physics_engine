@@ -21,16 +21,17 @@ import javax.swing.*;
 public class PhysicsMain {
 	public static final int EDGE_BORDER = 3;
 
+	public static final int MAX_SPAWN = 500; //max number of entities
+	public static final int X = 750; //window width
+	public static final int Y = 750; //window height
+	public static final double GRAVITY = 1500; //strength of gravity (1500)
+	public static final double BOUNCE = 0.9; //amount of speed conserved with each collision (0.9)
+	
 	public static JFrame frame = new JFrame("Physics Engine");
-	public static final int MAX_SPAWN = 500;
-	public static final int X = 500;
-	public static final int Y = 500;
-	public static final double GRAVITY = 0;
-	public static final double DRAG = 0;
-	public static final double BOUNCE = 1;
 	public static BufferedImage image = new BufferedImage(X, Y, BufferedImage.TYPE_INT_RGB);
 	public static ArrayList<Entity> entities = new ArrayList<Entity>();
-
+	
+	//area describing the border
 	public static Area down = new Area();
 	public static Area left = new Area();
 	public static Area up = new Area();
@@ -54,10 +55,12 @@ public class PhysicsMain {
 		
 		Thread moveEngine = new MoveEngine();
 		moveEngine.start();
+		
 		Thread makeBall = new MakeBall();
-		makeBall.start();
+		//makeBall.start();
+		
 		Thread makeBox = new MakeBox();
-		//makeBox.start();
+		makeBox.start();
 
 		runAnimation();
 	}
@@ -82,6 +85,7 @@ public class PhysicsMain {
 					frames = 0;
 				}
 				++frames;
+				
 				// clear back buffer...
 				g2d = image.createGraphics();
 				g2d.setColor(Color.WHITE);
@@ -119,15 +123,18 @@ public class PhysicsMain {
 					}
 					
 				}
+				
 				// display frames per second...
 				g2d.setFont(new Font("Courier New", Font.PLAIN, 12));
 				g2d.setColor(Color.GREEN);
 				g2d.drawString(String.format("FPS: %s", fps), 20, 20);
+				
 				// Blit image and flip...
 				graphics = buffer.getDrawGraphics();
 				graphics.drawImage(image, 0, 0, null);
 				if (!buffer.contentsLost())
 					buffer.show();
+				
 				// Let the OS have a little time...
 				Thread.sleep(15);
 			} catch (InterruptedException e) {

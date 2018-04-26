@@ -1,8 +1,8 @@
-public class Accel
+public class Force
 {
 	private double ax, ay;
 
-	public Accel(double ax, double ay)
+	public Force(double ax, double ay)
 	{
 		this.ax = ax;
 		this.ay = ay;

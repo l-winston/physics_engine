@@ -29,14 +29,14 @@ public class Box extends Entity {
 	 */
 	public Shape rotated;
 	
-	public Box(int x, int y, double vx, double vy, double bearing, double spin, int height, int width, int m,
+	public Box(int x, int y, double vx, double vy, double bearing, double rotationalVelocity, int height, int width, int m,
 			Color color) {
 		this.x = x;
 		this.y = y;
 		this.vx = vx;
 		this.vy = vy;
 		this.bearing = bearing;
-		this.spin = spin;
+		this.rotationalVelocity = rotationalVelocity;
 		this.width = width;
 		this.height = height;
 		this.color = color;
@@ -52,7 +52,7 @@ public class Box extends Entity {
 
 		AffineTransform at = new AffineTransform();
 
-		at.rotate(this.bearing(), this.getCenter().getX(), this.getCenter().getY());
+		at.rotate(this.getBearing(), this.getCenter().getX(), this.getCenter().getY());
 		rotated = at.createTransformedShape(this.getRect());
 	}
 
@@ -117,7 +117,7 @@ public class Box extends Entity {
 		//transform the rectangle (takes into account bearing)
 		AffineTransform at = new AffineTransform();
 
-		at.rotate(this.bearing(), this.getCenter().getX(), this.getCenter().getY());
+		at.rotate(this.getRotationalVelocity(), this.getCenter().getX(), this.getCenter().getY());
 		rotated = at.createTransformedShape(this.getRect());
 
 	}
