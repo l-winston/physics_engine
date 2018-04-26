@@ -39,8 +39,8 @@ public class MoveEngine extends Thread {
 		double xForce = 0, yForce = 0;
 		// Find the total Forceeration of all const forces.
 		for (int i = 0; i < constForces.size(); i++) {
-			xForce += constForces.get(i).ax();
-			yForce += constForces.get(i).ay();
+			xForce += constForces.get(i).fx();
+			yForce += constForces.get(i).fy();
 		}
 		// Apply the sum Forceeration to each entity.
 		for (int i = 0; i < PhysicsMain.entities.size(); i++) {
@@ -55,8 +55,8 @@ public class MoveEngine extends Thread {
 			// Get the sum of all Forceerations acting on object.
 			Force theForce = s.sumForce();
 			// Apply the resulting change in velocity.
-			double vx = s.getVX() + (theForce.ax() * timeFraction);
-			double vy = s.getVY() + (theForce.ay() * timeFraction);
+			double vx = s.getVX() + (theForce.fx() * timeFraction);
+			double vy = s.getVY() + (theForce.fy() * timeFraction);
 			
 			Point springForces = s.getSpringForces();
 			vx += springForces.getX()*timeFraction;

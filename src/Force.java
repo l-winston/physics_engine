@@ -1,20 +1,20 @@
 public class Force
 {
-	private double ax, ay;
+	private double fx, fy;
 
-	public Force(double ax, double ay)
+	public Force(double fx, double fy)
 	{
-		this.ax = ax;
-		this.ay = ay;
+		this.fx = fx;
+		this.fy = fy;
 	}
 
-	public double ax()
+	public double fx()
 	{
-		return this.ax;
+		return this.fx;
 	}
 
-	public double ay()
+	public double fy()
 	{
-		return this.ay;
+		return this.fy;
 	}
 }

@@ -40,19 +40,20 @@ public class Box extends Entity {
 		this.width = width;
 		this.height = height;
 		this.color = color;
+		
 		rect = new Polygon();
-		rect.addPoint((int) Math.round(this.getCenter().getX() - this.width / 2),
-				(int) Math.round(this.getCenter().getY() + this.height / 2));
-		rect.addPoint((int) Math.round(this.getCenter().getX() + this.width / 2),
-				(int) Math.round(this.getCenter().getY() + this.height / 2));
-		rect.addPoint((int) Math.round(this.getCenter().getX() + this.width / 2),
-				(int) Math.round(this.getCenter().getY() - this.height / 2));
-		rect.addPoint((int) Math.round(this.getCenter().getX() - this.width / 2),
-				(int) Math.round(this.getCenter().getY() - this.height / 2));
+		rect.addPoint((int) Math.round(this.getPosition().getX() - this.width / 2),
+				(int) Math.round(this.getPosition().getY() + this.height / 2));
+		rect.addPoint((int) Math.round(this.getPosition().getX() + this.width / 2),
+				(int) Math.round(this.getPosition().getY() + this.height / 2));
+		rect.addPoint((int) Math.round(this.getPosition().getX() + this.width / 2),
+				(int) Math.round(this.getPosition().getY() - this.height / 2));
+		rect.addPoint((int) Math.round(this.getPosition().getX() - this.width / 2),
+				(int) Math.round(this.getPosition().getY() - this.height / 2));
 
 		AffineTransform at = new AffineTransform();
 
-		at.rotate(this.getBearing(), this.getCenter().getX(), this.getCenter().getY());
+		at.rotate(this.getBearing(), this.getPosition().getX(), this.getPosition().getY());
 		rotated = at.createTransformedShape(this.getRect());
 	}
 
@@ -105,19 +106,19 @@ public class Box extends Entity {
 	public void updateRect() {
 		//update the rectangle (takes into account x/y translation)
 		rect = new Polygon();
-		rect.addPoint((int) Math.round(this.getCenter().getX() - this.width / 2),
-				(int) Math.round(this.getCenter().getY() + this.height / 2));
-		rect.addPoint((int) Math.round(this.getCenter().getX() + this.width / 2),
-				(int) Math.round(this.getCenter().getY() + this.height / 2));
-		rect.addPoint((int) Math.round(this.getCenter().getX() + this.width / 2),
-				(int) Math.round(this.getCenter().getY() - this.height / 2));
-		rect.addPoint((int) Math.round(this.getCenter().getX() - this.width / 2),
-				(int) Math.round(this.getCenter().getY() - this.height / 2));
+		rect.addPoint((int) Math.round(this.getPosition().getX() - this.width / 2),
+				(int) Math.round(this.getPosition().getY() + this.height / 2));
+		rect.addPoint((int) Math.round(this.getPosition().getX() + this.width / 2),
+				(int) Math.round(this.getPosition().getY() + this.height / 2));
+		rect.addPoint((int) Math.round(this.getPosition().getX() + this.width / 2),
+				(int) Math.round(this.getPosition().getY() - this.height / 2));
+		rect.addPoint((int) Math.round(this.getPosition().getX() - this.width / 2),
+				(int) Math.round(this.getPosition().getY() - this.height / 2));
 		
 		//transform the rectangle (takes into account bearing)
 		AffineTransform at = new AffineTransform();
 
-		at.rotate(this.getRotationalVelocity(), this.getCenter().getX(), this.getCenter().getY());
+		at.rotate(this.getRotationalVelocity(), this.getPosition().getX(), this.getPosition().getY());
 		rotated = at.createTransformedShape(this.getRect());
 
 	}

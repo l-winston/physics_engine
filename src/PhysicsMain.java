@@ -115,8 +115,8 @@ public class PhysicsMain {
 					}
 					if(!e.springs.isEmpty()){
 						for(Spring s : e.springs){
-							java.awt.geom.Point2D c1 = s.A.getCenter();
-							java.awt.geom.Point2D c2 = s.B.getCenter();
+							java.awt.geom.Point2D c1 = s.A.getPosition();
+							java.awt.geom.Point2D c2 = s.B.getPosition();
 							g2d.setColor(s.color);
 							g2d.drawLine((int) Math.round(c1.getX()), (int) Math.round(c1.getY()), (int) Math.round(c2.getX()), (int) Math.round(c2.getY()));
 						}
